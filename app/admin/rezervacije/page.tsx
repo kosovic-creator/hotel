@@ -66,6 +66,7 @@ export default function RezervacijePage() {
             <th>Kraj</th>
             <th>Gosti</th>
             <th>Status</th>
+             <th>Ime</th>
           </tr>
         </thead>
         <tbody>
@@ -78,14 +79,15 @@ export default function RezervacijePage() {
               <td>{new Date(r.kraj).toLocaleDateString()}</td>
               <td>{r.gosti}</td>
               <td>{r.status}</td>
+              <td>{r.korisnik?.ime}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <h2>Dodaj rezervaciju</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        <input
+      {/* <h2>Dodaj rezervaciju</h2> */}
+      {/* <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}> */}
+        {/* <input
           type="number"
           placeholder="ID apartmana"
           value={form.apartmanId}
@@ -112,8 +114,8 @@ export default function RezervacijePage() {
           value={form.kraj}
           onChange={e => setForm(f => ({ ...f, kraj: e.target.value }))}
           required
-        />
-        <input
+        /> */}
+        {/* <input
           type="number"
           placeholder="Broj gostiju"
           min={1}
@@ -121,8 +123,8 @@ export default function RezervacijePage() {
           onChange={e => setForm(f => ({ ...f, gosti: Number(e.target.value) }))}
           required
         />
-        <button type="submit">Dodaj</button>
-      </form>
+        <button type="submit">Dodaj</button>  */}
+      {/* </form> */}
     </div>
   );
 }
