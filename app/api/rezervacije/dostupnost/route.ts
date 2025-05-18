@@ -12,10 +12,11 @@ export async function POST(req: Request) {
     const postojeceRezervacije = await prisma.rezervacija.findMany({
       where: {
         apartmanId,
-        OR: [
-          { pocetak: { lte: new Date(kraj) } },
-          { kraj: { gte: new Date(pocetak) } }
-        ]
+       AND: [
+  { pocetak: { lt: kraj } },
+  { kraj: { gt: pocetak } }
+]
+
       }
     });
 
