@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 // app/rezervacije/page.tsx
 'use client';
 
@@ -17,6 +17,15 @@ type Rezervacija = {
 export default function RezervacijePage() {
   const [rezervacije, setRezervacije] = useState<Rezervacija[]>([]);
 
+  // Dodajte ovaj useEffect
+  useEffect(() => {
+    fetch('/api/rezervacije')
+      .then(res => res.json())
+      .then(data => setRezervacije(data))
+      .catch(err => console.error('Greška pri učitavanju:', err));
+  }, []); // Prazan niz znači da se poziva samo pri prvom renderu
+
+  // Ostatak koda ostaje isti...
 
   return (
 
