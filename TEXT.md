@@ -30,10 +30,18 @@ export default function AddRezervacijaPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPoruka('');
+    // Konvertuj ID-jeve u brojeve i datume u ISO stringove
+    const data = {
+      ...form,
+      apartmanId: Number(form.apartmanId),
+      korisnikId: Number(form.korisnikId),
+      pocetak: new Date(form.pocetak).toISOString(),
+      kraj: new Date(form.kraj).toISOString(),
+    };
     const res = await fetch('/api/rezervacije', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify(data),
     });
     if (res.ok) {
       setPoruka('Rezervacija uspješno dodata!');
@@ -52,7 +60,7 @@ export default function AddRezervacijaPage() {
   return (
     <div style={{ maxWidth: 500, margin: '0 auto', padding: 24 }}>
       <h1>Dodaj rezervaciju</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <form   onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <label>
           Apartman:
           <select
@@ -117,7 +125,4 @@ export default function AddRezervacijaPage() {
             </div>
   );
 }
-api radi dobro ali form:
-Greška:
- POST /api/rezervacije 400 in 101ms
- Greška pri dodavanju rezervacije.
+Htio bi da se pri dodavanju počertka i kraja rezervacije vidim koji su datumi dostupni odnosno rezervisani nedostupni.

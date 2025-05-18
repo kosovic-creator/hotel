@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useState, useEffect } from 'react';
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { addDays, isWithinInterval, parseISO } from 'date-fns';
 type Apartman = { id: number; naziv: string };
 type Korisnik = { id: number; ime: string; prezime?: string };
 
@@ -16,7 +19,16 @@ export default function AddRezervacijaPage() {
     gosti: 1,
   });
   const [poruka, setPoruka] = useState('');
-
+    const [rezervacije, setRezervacije] = useState<{ pocetak: string, kraj: string }[]>([]);
+    useEffect(() => {
+        if (form.apartmanId) {
+            fetch(`/api/rezervacije?apartmanId=${form.apartmanId}`)
+                .then(res => res.json())
+                .then(setRezervacije);
+        } else {
+            setRezervacije([]);
+        }
+    }, [form.apartmanId]);
   // Učitaj apartmane i korisnike
   useEffect(() => {
     fetch('/api/apartmani')
@@ -26,7 +38,14 @@ export default function AddRezervacijaPage() {
       .then(res => res.json())
       .then(setKorisnici);
   }, []);
-
+    const isDateReserved = (date: Date) => {
+        return rezervacije.some(r =>
+            isWithinInterval(date, {
+                start: parseISO(r.pocetak),
+                end: parseISO(r.kraj)
+            })
+        );
+    };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPoruka('');
@@ -60,7 +79,7 @@ export default function AddRezervacijaPage() {
   return (
     <div style={{ maxWidth: 500, margin: '0 auto', padding: 24 }}>
       <h1>Dodaj rezervaciju</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <label>
           Apartman:
           <select
@@ -91,24 +110,54 @@ export default function AddRezervacijaPage() {
                     ))}
                   </select>
                 </label>
-                <label>
-                  Početak:
-                  <input
-                    type="date"
-                    required
-                    value={form.pocetak}
-                    onChange={e => setForm(f => ({ ...f, pocetak: e.target.value }))}
-                  />
-                </label>
-                <label>
-                  Kraj:
-                  <input
-                    type="date"
-                    required
-                    value={form.kraj}
-                    onChange={e => setForm(f => ({ ...f, kraj: e.target.value }))}
-                  />
-                </label>
+              {rezervacije.length > 0 && (
+                  <div style={{ fontSize: 12, color: '#888' }}>
+                      <b>Zauzeti periodi:</b>
+                      <ul>
+                          {rezervacije.map((r, i) => (
+                              <li key={i}>
+                                  {r.pocetak.slice(0, 10)} - {r.kraj.slice(0, 10)}
+                              </li>
+                          ))}
+                      </ul>
+                  </div>
+              )}
+              <DatePicker
+                  selected={form.pocetak ? new Date(form.pocetak) : null}
+                  onChange={date => setForm(f => ({ ...f, pocetak: date ? date.toISOString().slice(0, 10) : '' }))}
+                  dateFormat="yyyy-MM-dd"
+                  minDate={new Date()}
+                  excludeDates={
+                      rezervacije.flatMap(r => {
+                          const dates = [];
+                          let current = new Date(r.pocetak);
+                          const end = new Date(r.kraj);
+                          while (current <= end) {
+                              dates.push(new Date(current));
+                              current = addDays(current, 1);
+                          }
+                          return dates;
+                      })
+                  }
+              />
+              <DatePicker
+                  selected={form.kraj ? new Date(form.kraj) : null}
+                  onChange={date => setForm(f => ({ ...f, kraj: date ? date.toISOString().slice(0, 10) : '' }))}
+                  dateFormat="yyyy-MM-dd"
+                  minDate={new Date()}
+                  excludeDates={
+                      rezervacije.flatMap(r => {
+                          const dates = [];
+                          let current = new Date(r.pocetak);
+                          const end = new Date(r.kraj);
+                          while (current <= end) {
+                              dates.push(new Date(current));
+                              current = addDays(current, 1);
+                          }
+                          return dates;
+                      })
+                  }
+              />
                 <label>
                   Broj gostiju:
                   <input
