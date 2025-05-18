@@ -1,32 +1,39 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const noviApartman = await prisma.apartman.create({
+    const noviKorisnik = await prisma.korisnik.create({
       data: body
     });
-    return NextResponse.json(noviApartman, { status: 201 });
+    return NextResponse.json(noviKorisnik, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Greška pri kreiranju apartmana' },
+      { error: 'Greška pri kreiranju korisnika' },
       { status: 500 }
     );
   }
 }
 
 export async function GET() {
+  const korisnici = await prisma.korisnik.findMany();
+  return NextResponse.json(korisnici);
+}
+
+
+export async function GET() {
   const apartmani = await prisma.apartman.findMany();
   return NextResponse.json(apartmani);
 }
-model Apartman {
-  id          Int           @id @default(autoincrement())
-  naziv       String
-  opis        String
-  cijena      Float
-  slike       String[]
+model Korisnik {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  lozinka     String
+  ime         String?
+  prezime     String?
   rezervacije Rezervacija[]
 }
 
-Na osnovu ovog api i prisma-schema Apartmai,napravi mi tsx tabelu.
+Na osnovu ovog api i prisma-schema Korisnik,napravi mi tsx tabelu.

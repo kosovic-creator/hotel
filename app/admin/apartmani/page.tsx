@@ -82,7 +82,9 @@ const isApartmanDostupan = (apartmanId: number) => {
     />
   </label>
 </div>
-
+<button onClick={() => window.location.href = '/admin/apartmani/dodaj'} className='bg-blue-500 text-white px-4 py-2 rounded'>
+  Dodaj apartman
+</button>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-50">
