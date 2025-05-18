@@ -10,7 +10,7 @@ export async function GET(req: Request) {
 
   try {
     const rezervacija = await prisma.rezervacija.findUnique({
-      where: { id: id as string },
+      where: { id: Number(id) },
       include: { apartman: true }
     });
 
@@ -40,7 +40,7 @@ export async function PUT(req: Request) {
     const body = await req.json();
 
     const azuriranaRezervacija = await prisma.rezervacija.update({
-      where: { id: id as string },
+      where: { id: Number(id) },
       data: body
     });
 

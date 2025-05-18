@@ -6,7 +6,7 @@ import { z } from 'zod';
 const prisma = new PrismaClient();
 
 const RezervacijaSchema = z.object({
-  apartmanId: z.string().uuid(),
+  apartmanId: z.number().int().positive(),
   korisnikId: z.string().uuid(),
   pocetak: z.string().datetime(),
   kraj: z.string().datetime(),
@@ -28,6 +28,8 @@ export async function POST(req: Request) {
     const novaRezervacija = await prisma.rezervacija.create({
       data: {
         ...validacija.data,
+        apartmanId: validacija.data.apartmanId,
+        korisnikId: Number(validacija.data.korisnikId),
         pocetak: new Date(validacija.data.pocetak),
         kraj: new Date(validacija.data.kraj)
       }

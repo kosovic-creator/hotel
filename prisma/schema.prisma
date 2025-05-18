@@ -14,8 +14,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Korisnik {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  lozinka     String
+  ime         String?
+  prezime     String?
+  rezervacije Rezervacija[]
+}
+
 model Apartman {
-  id          String        @id @default(uuid())
+  id          Int           @id @default(autoincrement())
   naziv       String
   opis        String
   cijena      Float
@@ -24,24 +33,14 @@ model Apartman {
 }
 
 model Rezervacija {
-  id         String   @id @default(uuid())
-  apartman   Apartman @relation(fields: [apartmanId], references: [id])
-  apartmanId String
-  korisnikId String
-  pocetak    DateTime
-  kraj       DateTime
-  gosti      Int
-  status     String   @default("na čekanju")
-  createdAt  DateTime @default(now())
-
-  Korisnik Korisnik @relation(fields: [korisnikId], references: [id])
-}
-
-model Korisnik {
-  id          String        @id @default(uuid())
-  email       String        @unique
-  lozinka     String
-  ime         String?
-  prezime     String?
-  rezervacije Rezervacija[]
+  id          Int       @id @default(autoincrement())
+  apartman    Apartman  @relation(fields: [apartmanId], references: [id])
+  apartmanId  Int
+  korisnik    Korisnik  @relation(fields: [korisnikId], references: [id])
+  korisnikId  Int
+  pocetak     DateTime
+  kraj        DateTime
+  gosti       Int
+  status      String    @default("na čekanju")
+  createdAt   DateTime  @default(now())
 }
