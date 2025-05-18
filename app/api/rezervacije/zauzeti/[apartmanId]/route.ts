@@ -2,25 +2,34 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET(request: Request) {
-  // Parsiraj apartmanId iz URL-a
   const url = new URL(request.url);
   const pathParts = url.pathname.split('/');
-  const apartmanIdStr = pathParts[pathParts.length - 1];
-  const apartmanId = parseInt(apartmanIdStr, 10);
+  const apartmanId = parseInt(pathParts[pathParts.length - 1], 10);
 
   if (isNaN(apartmanId)) {
-    return NextResponse.json({ error: 'Neispravan apartmanId' }, { status: 400 });
+    return NextResponse.json({ error: 'Neispravan ID apartmana' }, { status: 400 });
   }
 
   const rezervacije = await prisma.rezervacija.findMany({
     where: { apartmanId },
-    select: { pocetak: true, kraj: true }
+    select: {
+      pocetak: true,
+      kraj: true,
+      korisnik: {
+        select: {
+          ime: true,
+          prezime: true
+        }
+      }
+    }
   });
 
   return NextResponse.json(
     rezervacije.map(r => ({
       start: r.pocetak,
       end: r.kraj,
+      imeKorisnika: r.korisnik.ime,
+      prezimeKorisnika: r.korisnik.prezime
     }))
   );
 }
