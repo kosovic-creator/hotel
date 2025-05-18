@@ -1,31 +1,30 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// components/RezervacijaForma.tsx
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+type Interval = { start: Date; end: Date };
 
 export default function RezervacijaForma({ apartmanId }: { apartmanId: number }) {
   const [pocetak, setPocetak] = useState<Date | null>(null);
   const [kraj, setKraj] = useState<Date | null>(null);
-  const [gosti, setGosti] = useState(1);
+  const [zauzeti, setZauzeti] = useState<Interval[]>([]);
+
+  useEffect(() => {
+    fetch(`/api/rezervacije/zauzeti/${apartmanId}`)
+      .then(res => res.json())
+      .then((data: { start: string; end: string }[]) => {
+        setZauzeti(
+          data.map(i => ({
+            start: new Date(i.start),
+            end: new Date(i.end),
+          }))
+        );
+      });
+  }, [apartmanId]);
 
   const potvrdiRezervaciju = async () => {
-    const odgovor = await fetch('/api/rezervacije', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        apartmanId,
-        korisnikId:1, // Zamijeniti sa stvarnim ID-om
-        pocetak: pocetak?.toISOString(),
-        kraj: kraj?.toISOString(),
-        gosti
-      })
-    });
-
-    if (odgovor.ok) {
-      alert('Rezervacija uspješna!');
-    }
+    // ... tvoj kod za potvrdu rezervacije
   };
 
   return (
@@ -44,6 +43,7 @@ export default function RezervacijaForma({ apartmanId }: { apartmanId: number })
           selectsRange
           minDate={new Date()}
           inline
+          excludeDateIntervals={zauzeti}
         />
       </div>
       <button
