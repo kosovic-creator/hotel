@@ -5,7 +5,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function RezervacijaForma({ apartmanId }: { apartmanId: string }) {
+export default function RezervacijaForma({ apartmanId }: { apartmanId: number }) {
   const [pocetak, setPocetak] = useState<Date | null>(null);
   const [kraj, setKraj] = useState<Date | null>(null);
   const [gosti, setGosti] = useState(1);

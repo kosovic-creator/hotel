@@ -2,10 +2,16 @@
 // app/api/rezervacije/dostupnost/route.ts
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
+  const Schema = z.object({
+  apartmanId: z.number().int().positive(),
+  pocetak: z.string().datetime(),
+  kraj: z.string().datetime()
+});
   try {
     const { apartmanId, pocetak, kraj } = await req.json();
 
