@@ -48,7 +48,16 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     const rezervacije = await prisma.rezervacija.findMany({
-      include: { apartman: true }
+      include: {
+        apartman: true,
+        korisnik: {
+          select: {
+            id: true,
+            ime: true,
+            email: true
+          }
+        }
+      }
     });
     return NextResponse.json(rezervacije);
   } catch (error) {
