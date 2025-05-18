@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 const RezervacijaSchema = z.object({
   apartmanId: z.number().int().positive(),
-  korisnikId: z.string().uuid(),
+  korisnikId: z.number().int().positive(), // Promijenite u number
   pocetak: z.string().datetime(),
   kraj: z.string().datetime(),
   gosti: z.number().int().positive()
@@ -25,15 +25,13 @@ export async function POST(req: Request) {
       );
     }
 
-    const novaRezervacija = await prisma.rezervacija.create({
-      data: {
-        ...validacija.data,
-        apartmanId: validacija.data.apartmanId,
-        korisnikId: Number(validacija.data.korisnikId),
-        pocetak: new Date(validacija.data.pocetak),
-        kraj: new Date(validacija.data.kraj)
-      }
-    });
+  const novaRezervacija = await prisma.rezervacija.create({
+    data: {
+      ...validacija.data,
+      pocetak: new Date(validacija.data.pocetak),
+      kraj: new Date(validacija.data.kraj)
+    }
+  });
 
     return NextResponse.json(novaRezervacija, { status: 201 });
 

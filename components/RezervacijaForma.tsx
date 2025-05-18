@@ -16,7 +16,7 @@ export default function RezervacijaForma({ apartmanId }: { apartmanId: number })
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         apartmanId,
-        korisnikId: 1, // Zamijeniti sa stvarnim ID-om
+        korisnikId:1, // Zamijeniti sa stvarnim ID-om
         pocetak: pocetak?.toISOString(),
         kraj: kraj?.toISOString(),
         gosti
