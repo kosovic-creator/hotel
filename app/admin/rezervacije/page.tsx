@@ -29,22 +29,23 @@ export default function RezervacijePage() {
 
   return (
 
-    <div style={{ maxWidth: 900, margin: '0 auto', padding: 24 }}>
+    <div className="container mx-auto p-4">
       <h1>Rezervacije</h1>
 <button onClick={() => window.location.href = '/admin/dodaj'} className='bg-blue-500 text-white px-4 py-2 rounded'>
   Dodaj rezervaciju
 </button>
-      <table border={1} cellPadding={8} cellSpacing={0} style={{ width: '100%', marginBottom: 32 }}>
-        <thead className='bg-gray-200 text-gray-600 '>
-          <tr className='text-left text-sm font-semibold border-b border-gray-400'>
-            <th>ID</th>
-            <th>Apartman</th>
-            <th>Korisnik</th>
-            <th>Početak</th>
-            <th>Kraj</th>
-            <th>Gosti</th>
-            <th>Status</th>
-             <th>Email</th>
+     <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead className="bg-gray-50">
+          <tr >
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Apartman</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Korisnik</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Početak</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kraj</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Gosti</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
           </tr>
         </thead>
         <tbody>
@@ -64,6 +65,8 @@ export default function RezervacijePage() {
         </tbody>
       </table>
 
+    </div>
+    {/* Closing the outermost div */}
     </div>
   );
 }
