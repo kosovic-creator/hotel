@@ -142,7 +142,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
                     Nazad
                   </button>
                 </Link>
-                <Link href={`/admin/rezervacije/uredi/${4}`} >
+                <Link href={`/admin/rezervacije/uredi/${rezervacija?.id}`} >
                   <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
                 </Link>
                 <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " >Briši</button>
