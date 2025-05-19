@@ -6,12 +6,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays, isWithinInterval, parseISO } from 'date-fns';
 import { useRouter } from 'next/navigation';
+import Toast from '@/components/ui/Toast';
 type Apartman = { id: number; naziv: string };
 type Korisnik = { id: number; ime: string; prezime?: string };
 
 export default function AddRezervacijaPage() {
   const [apartmani, setApartmani] = useState<Apartman[]>([]);
   const [korisnici, setKorisnici] = useState<Korisnik[]>([]);
+  const [toast, setToast] = useState<string | null>(null);
   const [form, setForm] = useState({
     apartmanId: '',
     korisnikId: '',
@@ -58,7 +60,7 @@ export default function AddRezervacijaPage() {
       body: JSON.stringify(data),
     });
     if (res.ok) {
-      setPoruka('Rezervacija uspješno dodata!');
+      setToast('Rezervacija uspješno dodata!');
       setForm({
         apartmanId: '',
         korisnikId: '',
@@ -189,6 +191,7 @@ export default function AddRezervacijaPage() {
           <div className="text-center text-sm mt-2 text-green-600 font-medium">{poruka}</div>
         )}
       </form>
+      <Toast message={toast} />
     </div>
   );
 }

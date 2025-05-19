@@ -1,12 +1,13 @@
 
 import React from "react";
 
+
 interface ConfirmDeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   itemId: string | number;
-  title?: string;
+ apartman: string;
 }
 
 const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
@@ -14,7 +15,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   onClose,
   onConfirm,
   // itemId,
-  title,
+ apartman,
 }) => {
   if (!isOpen) return null;
 
@@ -24,7 +25,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">Potvrda Brisanja</h2>
         <p className="mb-6">
-          Da li ste sigurni da želite da obrišete napomenu {title}?
+          Da li ste sigurni da želite da obrišete rezervaciju {apartman}?
         </p>
         <div className="flex justify-end space-x-4">
           <button
@@ -41,6 +42,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
           </button>
         </div>
       </div>
+
     </div>
   );
 };

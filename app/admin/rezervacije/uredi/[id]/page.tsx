@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Toast from '@/components/ui/Toast';
 
 interface Rezervacija {
   apartmanId: number;
@@ -12,6 +13,7 @@ interface Rezervacija {
 }
 
 export default function UpdateRezervacija() {
+   const [toast, setToast] = useState<string | null>(null);
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const [form, setForm] = useState<Rezervacija>({
@@ -65,6 +67,7 @@ export default function UpdateRezervacija() {
     });
 
     if (res.ok) {
+        setToast('Rezervacija je uspešno izmjenjena!');
       router.push('/admin/rezervacije');
     } else {
       const data = await res.json();
@@ -146,6 +149,7 @@ export default function UpdateRezervacija() {
           {loading ? 'Ažuriranje...' : 'Ažuriraj'}
         </button>
       </form>
+      <Toast message={toast} />
     </div>
   );
 }

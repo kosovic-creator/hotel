@@ -36,8 +36,8 @@ export default function RezervacijePage() {
           Dodaj rezervaciju
         </button>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
+     <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-200">
             <tr >
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>

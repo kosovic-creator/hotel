@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+import Toast from '@/components/ui/Toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -23,6 +24,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
   const [inputId, setInputId] = useState(Number(id));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+  const [toast, setToast] = useState<string | null>(null);
   // Funkcija za dohvat rezervacije
   const fetchRezervacija = async (rezId: number) => {
     setGreska('');
@@ -55,7 +57,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
     setRezervacija(null);
     setIsModalOpen(false);
 
-    // showToast('Napomena je uspešno obrisana!');
+    setToast('Rezervacija je uspešno obrisana!');
     router.push('/admin/rezervacije');
   };
   // Ručno pretraživanje (ako želiš ostaviti formu)
@@ -138,12 +140,14 @@ return (
         </Link>
         <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(rezervacija?.id ?? 0)} >Briši</button>
       </div>
+       <Toast message={toast} />
     </div>
     <ConfirmDeleteModal
       isOpen={isModalOpen}
       onClose={closeDeleteConfirmModal}
       onConfirm={() => deleteRezervacije(inputId)}
       itemId={inputId!}
+      apartman={rezervacija?.apartman?.naziv ?? ''} // Pretpostavljam da želiš naziv apartmana ovde
     />
   </>
 );
