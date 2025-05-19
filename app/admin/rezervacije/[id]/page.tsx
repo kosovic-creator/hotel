@@ -13,25 +13,20 @@ type Rezervacija = {
 };
 
 export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = React.use(params); // <-- OVO JE KLJUČNO
+  const { id } = React.use(params);
 
   const [rezervacija, setRezervacija] = useState<Rezervacija | null>(null);
   const [greska, setGreska] = useState('');
   const [loading, setLoading] = useState(false);
   const [inputId, setInputId] = useState(Number(id));
 
-  useEffect(() => {
-    setInputId(Number(id));
-  }, [id]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Funkcija za dohvat rezervacije
+  const fetchRezervacija = async (rezId: number) => {
     setGreska('');
     setRezervacija(null);
     setLoading(true);
-
     try {
-      const res = await fetch(`/api/rezervacije/${inputId}`);
+      const res = await fetch(`/api/rezervacije/${rezId}`);
       const data = await res.json();
       if (!res.ok) {
         setGreska(data.greska || 'Greška pri dohvatu rezervacije');
@@ -43,6 +38,20 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
     } finally {
       setLoading(false);
     }
+  };
+
+  // Automatski pozovi kad se promijeni id
+  useEffect(() => {
+    if (id) {
+      setInputId(Number(id));
+      fetchRezervacija(Number(id));
+    }
+  }, [id]);
+
+  // Ručno pretraživanje (ako želiš ostaviti formu)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchRezervacija(inputId);
   };
 
   return (
@@ -66,7 +75,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
           marginBottom: 24,
         }}
       >
-        <label style={{ fontWeight: 500, color: '#333' }}>
+        {/* <label style={{ fontWeight: 500, color: '#333' }}>
           ID rezervacije:
           <input
             type="number"
@@ -84,8 +93,8 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
               boxSizing: 'border-box',
             }}
           />
-        </label>
-        <button
+        </label> */}
+        {/* <button
           type="submit"
           disabled={loading}
           style={{
@@ -102,7 +111,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
           }}
         >
           Prikaži rezervaciju
-        </button>
+        </button> */}
       </form>
       {loading && <p style={{ color: '#1976d2', fontWeight: 500 }}>Učitavanje...</p>}
       {greska && <p style={{ color: '#d32f2f', fontWeight: 500 }}>{greska}</p>}
