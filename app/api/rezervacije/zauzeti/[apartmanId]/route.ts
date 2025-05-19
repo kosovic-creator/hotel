@@ -28,8 +28,8 @@ export async function GET(request: Request) {
     rezervacije.map(r => ({
       start: r.pocetak,
       end: r.kraj,
-      imeKorisnika: r.korisnik.ime,
-      prezimeKorisnika: r.korisnik.prezime
+      imeKorisnika: r.korisnik?.ime ?? null,
+      prezimeKorisnika: r.korisnik?.prezime ?? null
     }))
   );
 }

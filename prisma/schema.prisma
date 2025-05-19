@@ -36,8 +36,8 @@ model Rezervacija {
   id          Int       @id @default(autoincrement())
   apartman    Apartman  @relation(fields: [apartmanId], references: [id])
   apartmanId  Int
-  korisnik    Korisnik  @relation(fields: [korisnikId], references: [id])
-  korisnikId  Int
+  korisnik    Korisnik?  @relation(fields: [korisnikId], references: [id])
+  korisnikId  Int?
   pocetak     DateTime
   kraj        DateTime
   gosti       Int
