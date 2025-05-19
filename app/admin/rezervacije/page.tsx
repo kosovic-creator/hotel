@@ -32,7 +32,7 @@ export default function RezervacijePage() {
       <h1 className="text-2xl font-bold mb-4">Rezervacije</h1>
 
       <div style={{ margin: '20px 0', display: 'flex', gap: 16 }}>
-        <button onClick={() => window.location.href = '/admin/dodaj'} className='bg-blue-500 text-white px-4 py-2 rounded'>
+        <button type='button' onClick={() => window.location.href = '/admin/rezervacije/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900">
           Dodaj rezervaciju
         </button>
       </div>

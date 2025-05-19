@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import { redirect } from 'next/navigation';
 
 const prisma = new PrismaClient();
 
@@ -42,6 +43,7 @@ export async function POST(req: Request) {
     );
   } finally {
     await prisma.$disconnect();
+    redirect('/admin/rezervacije');
   }
 }
 

@@ -84,7 +84,7 @@ const isApartmanDostupan = (apartmanId: number) => {
     />
   </label>
 </div>
-<button onClick={() => window.location.href = '/admin/apartmani/dodaj'} className='bg-blue-500 text-white px-4 py-2 rounded'>
+<button onClick={() => window.location.href = '/admin/apartmani/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900" type="button">
   Dodaj apartman
 </button>
       <div className="overflow-x-auto">
