@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // app/api/rezervacije/[id]/route.ts
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';

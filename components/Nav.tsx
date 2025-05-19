@@ -1,26 +1,27 @@
 import React from 'react'
+import Link from 'next/link'
 
 export default function Nav() {
   return (
     <div>
       <header className="bg-gray-800 text-white p-4">
-       
+
         <nav className="mt-2">
           <ul className="flex space-x-4">
             <li>
-              <a href="/admin/apartmani" className="hover:underline">
+              <Link href="/admin/apartmani" className="hover:underline">
                 Apartmani
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/admin/rezervacije" className="hover:underline">
+              <Link href="/admin/rezervacije" className="hover:underline">
                 Rezervacije
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/admin/korisnici" className="hover:underline">
+             <Link href="/admin/korisnici" className="hover:underline">
                 Korisnici
-              </a>
+              </Link>
             </li>
 
           </ul>
