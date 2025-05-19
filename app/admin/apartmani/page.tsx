@@ -63,11 +63,12 @@ const isApartmanDostupan = (apartmanId: number) => {
 };
   return (
     <div className="max-w-6xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Lista apartmana</h1>
+      <h1 className="text-2xl font-bold mb-4">Apartmani</h1>
 <div style={{ margin: '20px 0', display: 'flex', gap: 16 }}>
   <label>
     Početak:
     <DatePicker
+    className="border-2 border-gray-200 rounded-md px-3 py-2"
       selected={startDate}
       onChange={date => setStartDate(date)}
       dateFormat="dd.MM.yyyy"
@@ -76,6 +77,7 @@ const isApartmanDostupan = (apartmanId: number) => {
   <label>
     Kraj:
     <DatePicker
+     className="border-2 border-gray-200 rounded-md px-3 py-2"
       selected={endDate}
       onChange={date => setEndDate(date)}
       dateFormat="dd.MM.yyyy"
@@ -87,7 +89,7 @@ const isApartmanDostupan = (apartmanId: number) => {
 </button>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-200">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Naziv</th>
@@ -96,7 +98,7 @@ const isApartmanDostupan = (apartmanId: number) => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slike</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-300">
             {apartmani.filter(apartman => isApartmanDostupan(apartman.id)).map(apartman => (
               <tr key={apartman.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">{apartman.id}</td>
