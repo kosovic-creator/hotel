@@ -17,6 +17,9 @@ const RezervacijaSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    if (body.pocetak) body.pocetak = new Date(body.pocetak).toISOString();
+    if (body.kraj) body.kraj = new Date(body.kraj).toISOString();
+
     const validacija = RezervacijaSchema.safeParse(body);
 
     if (!validacija.success) {

@@ -64,6 +64,10 @@ export async function PUT(req: Request) {
   try {
     const body = await req.json();
 
+    // Pretvori datume u ISO string ako postoje
+    if (body.pocetak) body.pocetak = new Date(body.pocetak).toISOString();
+    if (body.kraj) body.kraj = new Date(body.kraj).toISOString();
+
     const azuriranaRezervacija = await prisma.rezervacija.update({
       where: { id: Number(id) },
       data: body
@@ -71,6 +75,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(azuriranaRezervacija);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { greska: 'Greška pri ažuriranju' },
       { status: 500 }
