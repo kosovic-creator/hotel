@@ -91,7 +91,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
             padding: '10px 0',
             borderRadius: 6,
             border: 'none',
-            background: '#1976d2',
+            background: 'black',
             color: '#fff',
             fontWeight: 600,
             fontSize: 16,
