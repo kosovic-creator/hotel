@@ -77,7 +77,7 @@ export default function AddRezervacijaPage() {
       <h1>Dodaj rezervaciju</h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-6 bg-white p-8 rounded-lg shadow-md border border-gray-200"
+        className="flex flex-col gap-6 bg-white p-8 rounded-lg  border-gray-200"
       >
         <label className="flex flex-col gap-1 font-medium text-gray-700">
           Apartman:

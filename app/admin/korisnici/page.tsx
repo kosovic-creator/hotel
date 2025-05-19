@@ -35,7 +35,7 @@ export default function KorisniciTabela() {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Korisnici</h1>
-<button onClick={() => window.location.href = '/admin/korisnici/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900">
+<button onClick={() => window.location.href = '/admin/korisnici/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900 mb-4">
   Dodaj korisnika
 </button>
         <div className="overflow-x-auto">
