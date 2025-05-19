@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 type Rezervacija = {
@@ -14,12 +16,13 @@ type Rezervacija = {
 
 export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-
+  const [apartman, setApartman] = useState('');
   const [rezervacija, setRezervacija] = useState<Rezervacija | null>(null);
   const [greska, setGreska] = useState('');
   const [loading, setLoading] = useState(false);
   const [inputId, setInputId] = useState(Number(id));
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
   // Funkcija za dohvat rezervacije
   const fetchRezervacija = async (rezId: number) => {
     setGreska('');
@@ -47,14 +50,29 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
       fetchRezervacija(Number(id));
     }
   }, [id]);
+  const deleteRezervacije = async (id: number) => {
+    await fetch(`/api/rezervacije/${id}`, { method: 'DELETE' });
+    setRezervacija(null);
+    setIsModalOpen(false);
 
+    // showToast('Napomena je uspešno obrisana!');
+    router.push('/admin/rezervacije');
+  };
   // Ručno pretraživanje (ako želiš ostaviti formu)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     fetchRezervacija(inputId);
   };
-
-  return (
+  const openDeleteConfirmModal = (id: string | number) => {
+    setInputId(Number(id));
+    setIsModalOpen(true);
+  };
+  const closeDeleteConfirmModal = () => {
+    setIsModalOpen(false);
+    setInputId(Number(null));
+  };
+return (
+  <>
     <div
       style={{
         maxWidth: 400,
@@ -75,43 +93,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
           marginBottom: 24,
         }}
       >
-        {/* <label style={{ fontWeight: 500, color: '#333' }}>
-          ID rezervacije:
-          <input
-            type="number"
-            value={inputId}
-            onChange={e => setInputId(Number(e.target.value))}
-            required
-            min={1}
-            style={{
-              marginTop: 8,
-              padding: 8,
-              borderRadius: 6,
-              border: '1px solid #bdbdbd',
-              fontSize: 16,
-              width: '100%',
-              boxSizing: 'border-box',
-            }}
-          />
-        </label> */}
-        {/* <button
-          type="submit"
-          disabled={loading}
-          style={{
-            padding: '10px 0',
-            borderRadius: 6,
-            border: 'none',
-            background: 'black',
-            color: '#fff',
-            fontWeight: 600,
-            fontSize: 16,
-            cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.7 : 1,
-            transition: 'background 0.2s',
-          }}
-        >
-          Prikaži rezervaciju
-        </button> */}
+
       </form>
       {loading && <p style={{ color: '#1976d2', fontWeight: 500 }}>Učitavanje...</p>}
       {greska && <p style={{ color: '#d32f2f', fontWeight: 500 }}>{greska}</p>}
@@ -146,16 +128,24 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
         </div>
       )}
       <div className="flex gap-3 mt-7 w-full">
-                <Link href="/todo">
-                  <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
-                    Nazad
-                  </button>
-                </Link>
-                <Link href={`/admin/rezervacije/uredi/${rezervacija?.id}`} >
-                  <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
-                </Link>
-                <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " >Briši</button>
-              </div>
-            </div>
-  );
+        <Link href="/admin/rezervacije">
+          <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
+            Nazad
+          </button>
+        </Link>
+        <Link href={`/admin/rezervacije/uredi/${rezervacija?.id}`} >
+          <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
+        </Link>
+        <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(rezervacija?.id ?? 0)} >Briši</button>
+      </div>
+    </div>
+    <ConfirmDeleteModal
+      isOpen={isModalOpen}
+      onClose={closeDeleteConfirmModal}
+      onConfirm={() => deleteRezervacije(inputId)}
+      itemId={inputId!}
+    />
+  </>
+);
+
 }

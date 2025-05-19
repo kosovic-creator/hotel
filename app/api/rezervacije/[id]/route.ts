@@ -1,5 +1,5 @@
 // app/api/rezervacije/[id]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET(request: Request) {
@@ -82,4 +82,16 @@ export async function PUT(req: Request) {
   } finally {
     await prisma.$disconnect();
   }
+}
+
+export async function DELETE(request: NextRequest) {
+  const url = new URL(request.url);
+  const id = parseInt(url.pathname.split('/').pop() || '', 10); // Parse `id` as a number
+
+  if (isNaN(id)) {
+    return NextResponse.json({ message: 'ID nije prosleđen ili nije validan broj.' }, { status: 400 });
+  }
+
+  await prisma.rezervacija.delete({ where: { id } }); // Use `id` as a number
+  return NextResponse.json({ message: 'Deleted' });
 }
