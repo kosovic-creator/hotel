@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 type Rezervacija = {
@@ -135,6 +136,17 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
           </p>
         </div>
       )}
-    </div>
+      <div className="flex gap-3 mt-7 w-full">
+                <Link href="/todo">
+                  <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
+                    Nazad
+                  </button>
+                </Link>
+                <Link href={`/admin/rezervacije/uredi/${4}`} >
+                  <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
+                </Link>
+                <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " >Briši</button>
+              </div>
+            </div>
   );
 }
