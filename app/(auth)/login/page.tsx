@@ -25,10 +25,33 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Input  type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-      <Input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-      <Button type="submit">Prijavi se</Button>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-sm mx-auto mt-20 p-8 bg-white rounded-xl shadow flex flex-col gap-6"
+    >
+      <h2 className="text-2xl font-bold text-center mb-2">Prijava</h2>
+      <Input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        placeholder="Email"
+        className="w-full"
+      />
+      <Input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        placeholder="Lozinka"
+        className="w-full"
+      />
+      <Button
+        type="submit"
+        className="w-full bg-black text-white hover:bg-yellow-600 transition font-semibold py-2 rounded"
+      >
+        Prijavi se
+      </Button>
     </form>
   );
 }
