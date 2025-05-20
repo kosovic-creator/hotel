@@ -53,7 +53,6 @@ export default function RegisterPage() {
           minLength={6}
         />
       </div>
-
       <button
         type="submit"
         className="w-full bg-black text-white p-2 rounded "
