@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
+import Toast from '@/components/ui/Toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
+import { UploadButton } from '@/lib/uploadthing';
 export default function ApartmanForma() {
   const [form, setForm] = useState({
     naziv: '',
@@ -9,12 +11,15 @@ export default function ApartmanForma() {
     cijena: '',
     slike: ''
   });
+   const [toast, setToast] = useState<string | null>(null);
   const [poruka, setPoruka] = useState('');
+  const [value, setValue] = useState<string[]>([]);
   const router = useRouter();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const images = form.slike.split(',').map((s) => s.trim()).filter(Boolean);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPoruka('');
@@ -69,10 +74,22 @@ export default function ApartmanForma() {
           name="slike"
           type="text"
           placeholder="URL slike (odvojiti zarezom)"
-          value={form.slike}
+          value={value}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />
+         <UploadButton
+                endpoint='imageUploader'
+                onClientUploadComplete={(res: { url: string }[]) => {
+                  setForm((prev) => ({
+                    ...prev,
+                    slike: [...images, res[0].url].join(','),
+                  }));
+                }}
+                onUploadError={(error: Error) => {
+                  setToast(`ERROR! ${error.message}`);
+                }}
+              />
         <button
           type="submit"
           className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900"
@@ -81,6 +98,7 @@ export default function ApartmanForma() {
         </button>
         {poruka && <div className="mt-2 text-green-600">{poruka}</div>}
       </form>
+       <Toast message={toast} />
     </div>
   );
 }
