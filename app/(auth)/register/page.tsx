@@ -2,8 +2,11 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Toast from "@/components/ui/Toast";
+
 
 export default function RegisterPage() {
+const [toast, setToast] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -19,6 +22,7 @@ export default function RegisterPage() {
       });
 
       if (response.ok) {
+         setToast('Uspješno je dodat novi korisnik!');
         router.push("/login");
       } else {
         const data = await response.json();
@@ -59,6 +63,8 @@ export default function RegisterPage() {
       >
         Registruj se
       </button>
+       <Toast message={toast} />
     </form>
+
   );
 }
