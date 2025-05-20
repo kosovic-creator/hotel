@@ -1,87 +1,103 @@
-[...nextauth]/route.ts:
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import prisma from "@/lib/prisma";
-import bcrypt from "bcryptjs";
-
-const handler = NextAuth({
-  providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "tvoj@email.com" },
-        password: { label: "Lozinka", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Unesi email i lozinku");
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
-
-        if (!user) {
-          throw new Error("Netačan email ili lozinka");
-        }
-
-        const isValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isValid) {
-          throw new Error("Netačan email ili lozinka");
-        }
-
-        return { id: user.id.toString(), email: user.email };
-      },
-    }),
-  ],
-  session: { strategy: "jwt" },
-  pages: { signIn: "/login" },
-  secret: process.env.NEXTAUTH_SECRET,
-});
-
-export { handler as GET, handler as POST };
-
-login/page.tsx:
-
-"use client";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-    if (res?.ok) {
-      router.push("/profile");
-    } else {
-      alert("Pogrešan email ili lozinka");
-    }
+package.json:
+{
+  "name": "apartmani",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+   "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:migrate": "npx prisma migrate dev",
+    "db:reset": "prisma migrate reset && prisma migrate dev"
+  },
+  "dependencies": {
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@prisma/client": "^6.8.2",
+    "@radix-ui/react-label": "^2.1.6",
+    "@radix-ui/react-select": "^2.2.4",
+    "@radix-ui/react-slot": "^1.2.2",
+    "bcryptjs": "^3.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.511.0",
+    "next": "15.3.2",
+    "next-auth": "^4.24.11",
+    "react": "^19.0.0",
+    "react-datepicker": "^8.3.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.3.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-datepicker": "^6.2.0",
+    "@types/react-dom": "^19",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "prisma": "^6.8.2",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.3.0",
+    "typescript": "^5"
   }
+}
+Vercel build:
+prisma generate && next build
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-      <button type="submit">Prijavi se</button>
-    </form>
-  );
+schema-prusma:
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
-kada poslije uspješne registracije preko register/page.tsx unesm
-novog korisnika u bazu, pri pokušaju da se sa istim prijavim pokazuje mi grešk: Pogrešan email ili lozinka.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
-u dev tools u network:
-providers 200 OK
-csrf METOD GET 200 OK ali u
-credentials  POST 401 Unautorized
+model Korisnik {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  lozinka     String
+  ime         String?
+  prezime     String?
+  rezervacije Rezervacija[]
+}
 
-Neznam o čemu se radi. Drugo pitanje kako u Postmanu mogu da provjerim login funkciju?
+model Apartman {
+  id          Int           @id @default(autoincrement())
+  naziv       String
+  opis        String
+  cijena      Float
+  slike       String[]
+  rezervacije Rezervacija[]
+}
+
+model Rezervacija {
+  id          Int       @id @default(autoincrement())
+  apartman    Apartman  @relation(fields: [apartmanId], references: [id])
+  apartmanId  Int
+  korisnik    Korisnik?  @relation(fields: [korisnikId], references: [id])
+  korisnikId  Int?
+  pocetak     DateTime
+  kraj        DateTime
+  gosti       Int
+  status      String    @default("na čekanju")
+  createdAt   DateTime  @default(now())
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+db: DATABASE_URL="postgresql://neondb_owner:npg_mqtT6cgL8EWe@ep-broad-river-a4kdyeed-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
+
+Pitanje je sledeće:
+U lokalom okruženju normalno se uloguijem sa nalogom koji je u bazi, mđutim to ne mogu na Vercelu, iako su podaci o korisniku u neon bazi net dobri?
