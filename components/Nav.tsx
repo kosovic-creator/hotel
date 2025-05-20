@@ -1,7 +1,24 @@
+'use client';
 import React from 'react'
 import Link from 'next/link'
 
+import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
+import { useSession } from "next-auth/react";
+import { SignOut } from './sign-out';
 export default function Nav() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/login");
+      console.log("Redirecting to login page");
+    }
+  }, [status, router]);
+   if (status === "loading" || !session) {
+    return null;
+  }
   return (
     <div>
       <header className="bg-gray-800 text-white p-4">
@@ -28,6 +45,7 @@ export default function Nav() {
                 Prijavi se
               </Link>
             </li>
+            <SignOut />
             <li>
              <Link href="/register" className="hover:underline">
                 Registruj se
