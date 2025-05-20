@@ -8,8 +8,8 @@ const SignOut = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <button onClick={handleSignOut}>
+    <div >
+      <button type="button" className="cursor-pointer transition-colors duration-200 hover:underline" onClick={handleSignOut}>
         Odjavi se
       </button>
     </div>
