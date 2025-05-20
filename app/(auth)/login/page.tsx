@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function LoginPage() {
       redirect: false,
     });
     if (res?.ok) {
-      router.push("/profile");
+      router.push("/");
     } else {
       alert("Pogrešan email ili lozinka");
     }
@@ -52,6 +53,11 @@ export default function LoginPage() {
       >
         Prijavi se
       </Button>
+      <div className="text-center">
+        <Button asChild variant="link">
+          <Link href="/register">Ako nemate nalog? Napravite nalog</Link>
+        </Button>
+      </div>
     </form>
   );
 }
