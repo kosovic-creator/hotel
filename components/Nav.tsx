@@ -23,6 +23,16 @@ export default function Nav() {
                 Korisnici
               </Link>
             </li>
+            <li>
+             <Link href="/login" className="hover:underline">
+                Prijavi se
+              </Link>
+            </li>
+            <li>
+             <Link href="/register" className="hover:underline">
+                Registruj se
+              </Link>
+            </li>
 
           </ul>
         </nav>
