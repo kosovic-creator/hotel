@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
@@ -16,8 +17,7 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
     naziv: string;
     opis: string;
     cijena: number;
-    slika: string;
-  
+    slike: string[]; // <-- ispravno
   };
   const [apartman, setApartman] = useState<Apartman | null>(null);
   const [greska, setGreska] = useState('');
@@ -85,7 +85,20 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
           <p className="p-3"><>Naziv:</> {apartman.naziv}</p>
           <p className="p-3"><>Opis:</> {apartman.opis}</p>
           <p className="p-3"><>Cijena:</> {apartman.cijena}</p>
-          <p className="p-3"><>Slika:</> {apartman.slika}</p>
+          {/* <p className="p-3"><>slike:</> {apartman.slike}</p> */}
+
+          {apartman.slike && Array.isArray(apartman.slike) && apartman.slike.length > 0 && (
+            <div className="flex gap-2 p-3">
+              {apartman.slike.map((url: string, idx: number) => (
+                <img
+                  key={idx}
+                  src={url.trim()}
+                  alt={`slika apartmana ${apartman.naziv}`}
+                  className="w-32 h-24 object-cover rounded"
+                />
+              ))}
+            </div>
+          )}
 
           <div className="flex gap-3 mt-7 w-full">
             <Link href="/admin/apartmani">
