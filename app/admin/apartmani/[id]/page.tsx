@@ -17,7 +17,7 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
     opis: string;
     cijena: number;
     slika: string;
-    // add other properties as needed
+  
   };
   const [apartman, setApartman] = useState<Apartman | null>(null);
   const [greska, setGreska] = useState('');
@@ -96,7 +96,7 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
             <Link href={`/admin/apartmani/uredi/${apartman.id}`} >
               <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
             </Link>
-            {/* <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(users.id)}>Briši</button> */}
+            <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(apartman.id)}>Briši</button>
           </div>
         </div>
       )}
