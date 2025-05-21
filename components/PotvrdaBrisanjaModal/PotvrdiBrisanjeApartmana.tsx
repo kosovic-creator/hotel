@@ -24,7 +24,7 @@ const PotvrdiBrisanjeApartmana: React.FC<PotvrdiBrisanjeApartmanaProps> = ({
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">Potvrda Brisanja</h2>
         <p className="mb-6">
-          Da li ste sigurni da želite da obrišete rezervaciju {naziv}?
+          Da li ste sigurni da želite da obrišete  {naziv}?
         </p>
         <div className="flex justify-end space-x-4">
           <button
