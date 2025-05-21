@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.big-datepicker .react-datepicker {
+  font-size: 1.5rem;
+  min-width: 400px;
+}

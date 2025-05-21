@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './datepicker-custom.css';
 
 type Interval = { start: Date; end: Date };
 
@@ -29,31 +30,34 @@ export default function RezervacijaForma({ apartmanId }: { apartmanId: number })
   };
 
   return (
-    <div className="max-w-md p-6 bg-white rounded-lg shadow">
-      <div className="mb-4">
+    <div className="max-w-4xl p-10 bg-white rounded-lg shadow w-full">
+      <div className="mb-4 w-full">
         <label className="block mb-2">Odaberite datume:</label>
-        <DatePicker
-          selected={pocetak}
-          onChange={(dates: [Date | null, Date | null]) => {
-            const [start, end] = dates;
-            setPocetak(start);
-            setKraj(end);
-          }}
-          startDate={pocetak}
-          endDate={kraj}
-          selectsRange
-          minDate={new Date()}
-          inline
-          excludeDateIntervals={zauzeti}
-        />
+       <DatePicker
+  selected={pocetak}
+  onChange={(dates: [Date | null, Date | null]) => {
+    const [start, end] = dates;
+    setPocetak(start);
+    setKraj(end);
+  }}
+  startDate={pocetak}
+  endDate={kraj}
+  selectsRange
+  minDate={new Date()}
+  inline
+  excludeDateIntervals={zauzeti}
+  className="custom-datepicker-input"
+  calendarClassName="custom-calendar"
+/>
+
       </div>
       <button
         onClick={potvrdiRezervaciju}
-        className="w-full py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+        className="w-60 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
       >
         Rezerviši
       </button>
-      <Link href="/admin" className="px-4 py-2 text-blue-500 hover:text-blue-400 mb-4">
+      <Link href="/admin" className="px-4 py-2 text-blue-100 hover:text-blue-400 mb-4">
         Admin
       </Link>
     </div>

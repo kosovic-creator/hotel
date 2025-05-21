@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import RezervacijaForma from "@/components/RezervacijaForma";
-import Admin from "./admin/page";
-import Link from "next/link";
+import "./globals.css";
 
 
 export default function Home() {
 
   return (
-    <>
-    <p className="text-center text-2xl font-bold mt-4">Home</p>
-      <RezervacijaForma apartmanId={7} />
+    <div className="flex flex-col items-center justify-center min-h-screen">
 
-
-    </>
+      <div className="w-full max-w-lg">
+        <RezervacijaForma apartmanId={7} />
+      </div>
+    </div>
   );
 }
