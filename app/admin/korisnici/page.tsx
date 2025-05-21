@@ -29,7 +29,7 @@ export default function KorisniciTabela() {
     ucitajKorisnike()
   }, [])
 
-  if (loading) return <div className="text-center p-4">Učitavanje korisnika...</div>
+  // if (loading) return <div className="text-center p-4">Učitavanje korisnika...</div>
   if (error) return <div className="text-red-500 p-4">Greška: {error}</div>
 
   return (

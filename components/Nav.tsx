@@ -28,7 +28,7 @@ export default function Nav({ isSidebarOpen, setIsSidebarOpen }: NavProps) {
 
         <nav className="mt-2">
           <div className="flex items-center justify-between">
-          
+
             <div>
               <button
                 onClick={() => setIsSidebarOpen(true)}
@@ -43,7 +43,7 @@ export default function Nav({ isSidebarOpen, setIsSidebarOpen }: NavProps) {
             </div>
             {/* Desna strana */}
             <div>
-              <p className="text-sm text-gray-200">korisnik je iz : {session.user?.email}</p>
+              <p className="text-sm text-gray-200">korisnik : {session.user?.email}</p>
             </div>
           </div>
         </nav>
