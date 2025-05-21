@@ -76,8 +76,8 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
     setInputId(Number(null));
   };
   return (
-    <div>
-      {/* You can add a form here if needed */}
+   <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="w-full max-w-xl">
       <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-4 bg-white border-2 border-gray-100 rounded pl-4 pr-4"></form>
       {rezervacija && (
         <div className="flex-col text-left p-2 ">
@@ -110,6 +110,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
         apartman={rezervacija?.apartman?.naziv ?? ''} // <-- OVO JE KLJUČNO, changed to rezervacija?.apartman?.naziv for context
       />
       <Toast message={toast} />
+      </div>
     </div>
   );
 }

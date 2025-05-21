@@ -77,9 +77,9 @@ export default function UpdateRezervacija() {
 
   return (
     <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Ažuriraj Korisnika</h2>
+      <h2 className="text-2xl  mb-6 text-center text-black">Ažuriraj Korisnika</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
-     
+
         <div>
           <label className="block font-medium">Ime</label>
           <input

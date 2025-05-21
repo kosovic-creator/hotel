@@ -76,52 +76,54 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
     setSelectedItemId(null);
   };
   return (
-    <div>
-      {/* You can add a form here if needed */}
-      <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-4 bg-white border-2 border-gray-100 rounded pl-4 pr-4"></form>
-      {apartman && (
-        <div className="flex-col text-left p-2 ">
-          <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Apartmana</h1>
-          <p className="p-3"><>Naziv:</> {apartman.naziv}</p>
-          <p className="p-3"><>Opis:</> {apartman.opis}</p>
-          <p className="p-3"><>Cijena:</> {apartman.cijena}</p>
-          {/* <p className="p-3"><>slike:</> {apartman.slike}</p> */}
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-xl">
+        {/* You can add a form here if needed */}
+        <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-4 bg-white border-2 border-gray-100 rounded pl-4 pr-4"></form>
+        {apartman && (
+          <div className="flex-col text-left p-2 ">
+            <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Apartmana</h1>
+            <p className="p-3"><>Naziv:</> {apartman.naziv}</p>
+            <p className="p-3"><>Opis:</> {apartman.opis}</p>
+            <p className="p-3"><>Cijena:</> {apartman.cijena}</p>
+            {/* <p className="p-3"><>slike:</> {apartman.slike}</p> */}
 
-          {apartman.slike && Array.isArray(apartman.slike) && apartman.slike.length > 0 && (
-            <div className="flex gap-2 p-3">
-              {apartman.slike.map((url: string, idx: number) => (
-                <img
-                  key={idx}
-                  src={url.trim()}
-                  alt={`slika apartmana ${apartman.naziv}`}
-                  className="w-32 h-24 object-cover rounded"
-                />
-              ))}
+            {apartman.slike && Array.isArray(apartman.slike) && apartman.slike.length > 0 && (
+              <div className="flex gap-2 p-3">
+                {apartman.slike.map((url: string, idx: number) => (
+                  <img
+                    key={idx}
+                    src={url.trim()}
+                    alt={`slika apartmana ${apartman.naziv}`}
+                    className="w-32 h-24 object-cover rounded"
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="flex gap-3 mt-7 w-full">
+              <Link href="/admin/apartmani">
+                <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
+                  Nazad
+                </button>
+              </Link>
+              <Link href={`/admin/apartmani/uredi/${apartman.id}`} >
+                <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
+              </Link>
+              <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(apartman.id)}>Briši</button>
             </div>
-          )}
-
-          <div className="flex gap-3 mt-7 w-full">
-            <Link href="/admin/apartmani">
-              <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
-                Nazad
-              </button>
-            </Link>
-            <Link href={`/admin/apartmani/uredi/${apartman.id}`} >
-              <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
-            </Link>
-            <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(apartman.id)}>Briši</button>
           </div>
-        </div>
-      )}
+        )}
 
-      <PotvrdiBrisanjeApartmana
-        isOpen={isModalOpen}
-        onClose={closeDeleteConfirmModal}
-        onConfirm={() => selectedItemId !== null && deleteApartman(selectedItemId)}
-        itemId={selectedItemId!}
-        naziv={apartman?.naziv ?? ''} // <-- OVO JE KLJUČNO, changed to apartman?.naziv for context
-      />
-      <Toast message={toast} />
+        <PotvrdiBrisanjeApartmana
+          isOpen={isModalOpen}
+          onClose={closeDeleteConfirmModal}
+          onConfirm={() => selectedItemId !== null && deleteApartman(selectedItemId)}
+          itemId={selectedItemId!}
+          naziv={apartman?.naziv ?? ''}
+        />
+        <Toast message={toast} />
+      </div>
     </div>
   );
 }
