@@ -66,7 +66,7 @@ export default function RezervacijePage() {
 
                   <div className="flex gap-2 flex-row-reverse w-full">
                     <Link href={`/admin/rezervacije/${r.id}`} >
-                      <button className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 transition">Pregled</button>
+                      <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">Pregled</button>
                     </Link>
                   </div>
                 </td>

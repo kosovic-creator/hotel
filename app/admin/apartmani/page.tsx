@@ -104,6 +104,7 @@ export default function ApartmaniTabela() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Opis</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cijena (€)</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slike</th>
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-300">
@@ -129,6 +130,14 @@ export default function ApartmaniTabela() {
                         <span className="text-gray-500">+{apartman.slike.length - 3}</span>
                       )}
                     </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={() => window.location.href = `/admin/apartmani/${apartman.id}`}
+                      className="text-blue-600 hover:text-blue-900"
+                    >
+                      Detalji
+                    </button>
                   </td>
                 </tr>
               ))}

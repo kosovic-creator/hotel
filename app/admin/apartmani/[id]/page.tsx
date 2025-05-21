@@ -88,7 +88,7 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
           <p className="p-3"><>Slika:</> {apartman.slika}</p>
 
           <div className="flex gap-3 mt-7 w-full">
-            <Link href="/admin/users">
+            <Link href="/admin/apartmani">
               <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
                 Nazad
               </button>
