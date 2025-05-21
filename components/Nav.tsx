@@ -1,13 +1,17 @@
 'use client';
 import React from 'react'
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSession } from "next-auth/react";
 import Sidebar from './Sidebar';
-export default function Nav() {
+type NavProps = {
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (open: boolean) => void;
+};
+
+export default function Nav({ isSidebarOpen, setIsSidebarOpen }: NavProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -15,7 +19,7 @@ export default function Nav() {
       console.log("Redirecting to login page");
     }
   }, [status, router]);
-   if (status === "loading" || !session) {
+  if (status === "loading" || !session) {
     return null;
   }
   return (
@@ -24,7 +28,7 @@ export default function Nav() {
 
         <nav className="mt-2">
           <div className="flex items-center justify-between">
-            {/* Leva strana: dugme za otvaranje sidebar-a */}
+          
             <div>
               <button
                 onClick={() => setIsSidebarOpen(true)}
@@ -39,7 +43,7 @@ export default function Nav() {
             </div>
             {/* Desna strana */}
             <div>
-              <p className="text-sm text-gray-200">korisnik je : {session.user?.email}</p>
+              <p className="text-sm text-gray-200">korisnik je iz : {session.user?.email}</p>
             </div>
           </div>
         </nav>
@@ -47,5 +51,5 @@ export default function Nav() {
         <Sidebar open={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} session={session} />
       </header>
     </div>
-  )
+  );
 }

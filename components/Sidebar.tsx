@@ -46,12 +46,12 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
     return (
         <>
             {/* Toggle Button */}
-            <button
+            {/* <button
                 className="fixed top-4 left-4 z-50 bg-gray-700 text-white p-2 rounded"
                 onClick={() => setIsVisible(!isVisible)}
             >
                 {isVisible ? "" : "☰"}
-            </button>
+            </button> */}
 
             {/* Sidebar */}
             <aside
