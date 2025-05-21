@@ -54,8 +54,8 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
       fetchApartmani(Number(id));
     }
   }, [id]);
-  const deleteApartman = async (id: number) => {
-    await fetch(`/api/apartmani/${id}`, { method: 'DELETE' });
+  const deleteKorisnik = async (id: number) => {
+    await fetch(`/api/korisnici/${id}`, { method: 'DELETE' });
     setKorisnik(null);
     setIsModalOpen(false);
 
@@ -93,10 +93,10 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
                 Nazad
               </button>
             </Link>
-            {/* <Link href={`/admin/apartmani/update/${users.id}`} >
+            <Link href={`/admin/apartmani/update/${korisnik.id}`} >
               <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
-            // // </Link> */}
-            {/* <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(users.id)}>Briši</button> */}
+            </Link>
+            <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(korisnik.id)}>Briši</button>
           </div>
         </div>
       )}
@@ -104,7 +104,7 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
       <PotvrdiBrisanjeKorisnika
         isOpen={isModalOpen}
         onClose={closeDeleteConfirmModal}
-        onConfirm={() => selectedItemId !== null && deleteApartman(selectedItemId)}
+        onConfirm={() => selectedItemId !== null && deleteKorisnik(selectedItemId)}
         itemId={selectedItemId!}
         ime={korisnik?.ime ?? ''} // <-- OVO JE KLJUČNO, changed to apartman?.naziv for context
       />
