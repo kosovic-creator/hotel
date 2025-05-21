@@ -43,9 +43,10 @@ export default function KorisniciTabela() {
           <thead className="bg-gray-200">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ime</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prezime</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -55,6 +56,14 @@ export default function KorisniciTabela() {
                   <td className="px-6 py-4 whitespace-nowrap">{korisnik.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{korisnik.ime ?? ''}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{korisnik.prezime ?? ''}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={() => window.location.href = `/admin/korisnici/${korisnik.id}`}
+                      className="text-blue-600 hover:text-blue-900"
+                    >
+                      Detalji
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

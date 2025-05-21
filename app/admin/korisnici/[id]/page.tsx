@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import PotvrdiBrisanjeApartmana from '@/components/PotvrdaBrisanjaModal/PotvrdiBrisanjeApartmana';
+import PotvrdiBrisanjeKorisnika from '@/components/PotvrdaBrisanjaModal/PotvrdiBrisanjeKorisnika';
 import Toast from '@/components/ui/Toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -9,17 +9,17 @@ import React, { useEffect, useState } from 'react';
 
 
 
-export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: number }> }) {
+export default function KorisnikByIdForm({ params }: { params: Promise<{ id: number }> }) {
   const { id } = React.use(params);
-  type Apartman = {
+  type Korisnik = {
     id: number;
-    naziv: string;
-    opis: string;
-    cijena: number;
-    slika: string;
+    email: string;
+    ime: string;
+    prezime: string;
+
     // add other properties as needed
   };
-  const [apartman, setApartman] = useState<Apartman | null>(null);
+  const [korisnik, setKorisnik] = useState<Korisnik | null>(null);
   const [greska, setGreska] = useState('');
   const [loading, setLoading] = useState(false);
   const [inputId, setInputId] = useState(Number(id));
@@ -30,15 +30,15 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
   // Funkcija za dohvat rezervacije
   const fetchApartmani = async (aparId: number) => {
     setGreska('');
-    setApartman(null);
+    setKorisnik(null);
     setLoading(true);
     try {
-      const res = await fetch(`/api/apartmani/${aparId}`);
+      const res = await fetch(`/api/korisnici/${aparId}`);
       const data = await res.json();
       if (!res.ok) {
-        setGreska(data.greska || 'Greška pri dohvatu apartmana');
+        setGreska(data.greska || 'Greška pri dohvatu korisnika');
       } else {
-        setApartman(data);
+        setKorisnik(data);
       }
     } catch (err) {
       setGreska('Greška u mreži');
@@ -56,11 +56,11 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
   }, [id]);
   const deleteApartman = async (id: number) => {
     await fetch(`/api/apartmani/${id}`, { method: 'DELETE' });
-    setApartman(null);
+    setKorisnik(null);
     setIsModalOpen(false);
 
-    setToast('Apartman je uspešno obrisan!');
-    router.push('/admin/apartmani');
+    setToast('Korisnik je uspešno obrisan!');
+    router.push('/admin/korisnici');
   };
   // Ručno pretraživanje (ako želiš ostaviti formu)
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,34 +79,34 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
     <div>
       {/* You can add a form here if needed */}
       <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-4 bg-white border-2 border-gray-100 rounded pl-4 pr-4"></form>
-      {apartman && (
+      {korisnik && (
         <div className="flex-col text-left p-2 ">
           <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Apartmana</h1>
-          <p className="p-3"><>Naziv:</> {apartman.naziv}</p>
-          <p className="p-3"><>Opis:</> {apartman.opis}</p>
-          <p className="p-3"><>Cijena:</> {apartman.cijena}</p>
-          <p className="p-3"><>Slika:</> {apartman.slika}</p>
+          <p className="p-3"><>Id:</> {korisnik.id}</p>
+          <p className="p-3"><>Ime:</> {korisnik.ime}</p>
+          <p className="p-3"><>Prezime:</> {korisnik.prezime}</p>
+          <p className="p-3"><>Email:</> {korisnik.email}</p>
 
           <div className="flex gap-3 mt-7 w-full">
-            <Link href="/admin/apartmani">
+            <Link href="/admin/korisnici">
               <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
                 Nazad
               </button>
             </Link>
-            <Link href={`/admin/apartmani/uredi/${apartman.id}`} >
+            {/* <Link href={`/admin/apartmani/update/${users.id}`} >
               <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
-            </Link>
+            // // </Link> */}
             {/* <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(users.id)}>Briši</button> */}
           </div>
         </div>
       )}
 
-      <PotvrdiBrisanjeApartmana
+      <PotvrdiBrisanjeKorisnika
         isOpen={isModalOpen}
         onClose={closeDeleteConfirmModal}
         onConfirm={() => selectedItemId !== null && deleteApartman(selectedItemId)}
         itemId={selectedItemId!}
-        naziv={apartman?.naziv ?? ''} // <-- OVO JE KLJUČNO, changed to apartman?.naziv for context
+        ime={korisnik?.ime ?? ''} // <-- OVO JE KLJUČNO, changed to apartman?.naziv for context
       />
       <Toast message={toast} />
     </div>

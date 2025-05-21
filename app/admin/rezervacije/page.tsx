@@ -63,10 +63,9 @@ export default function RezervacijePage() {
                 <td className="px-6 py-4 whitespace-nowrap">{r.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{r.korisnik?.email}</td>
                 <td>
-
                   <div className="flex gap-2 flex-row-reverse w-full">
                     <Link href={`/admin/rezervacije/${r.id}`} >
-                      <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">Pregled</button>
+                      <button  className="text-blue-600 hover:text-blue-900 mr-3">Pregled</button>
                     </Link>
                   </div>
                 </td>
