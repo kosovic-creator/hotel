@@ -75,7 +75,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
     setIsModalOpen(false);
     setInputId(Number(null));
   };
-return (
+  return (
     <div>
       {/* You can add a form here if needed */}
       <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-4 bg-white border-2 border-gray-100 rounded pl-4 pr-4"></form>
@@ -94,6 +94,10 @@ return (
                 Nazad
               </button>
             </Link>
+            <Link href={`/admin/rezervacije/uredi/${rezervacija.id}`} >
+              <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
+            </Link>
+            <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(rezervacija.id)}>Briši</button>
           </div>
         </div>
       )}

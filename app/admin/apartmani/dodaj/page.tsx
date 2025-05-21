@@ -70,14 +70,15 @@ export default function ApartmanForma() {
           className="w-full p-2 border rounded"
           min={0}
         />
-        <input
+        {/* <input
           name="slike"
           type="text"
           placeholder="URL slike (odvojiti zarezom)"
           value={value}
           onChange={handleChange}
           className="w-full p-2 border rounded"
-        />
+        /> */}
+        <div className="flex flex-col items-center bg-amber-900 p-2 rounded">
          <UploadButton
                 endpoint='imageUploader'
                 onClientUploadComplete={(res: { url: string }[]) => {
@@ -90,6 +91,7 @@ export default function ApartmanForma() {
                   setToast(`ERROR! ${error.message}`);
                 }}
               />
+        </div>
         <button
           type="submit"
           className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900"

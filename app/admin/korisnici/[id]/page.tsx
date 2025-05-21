@@ -93,7 +93,7 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
                 Nazad
               </button>
             </Link>
-            <Link href={`/admin/apartmani/update/${korisnik.id}`} >
+            <Link href={`/admin/apartmani/uredi/${korisnik.id}`} >
               <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
             </Link>
             <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(korisnik.id)}>Briši</button>

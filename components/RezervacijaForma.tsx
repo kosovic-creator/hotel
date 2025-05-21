@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -52,6 +53,9 @@ export default function RezervacijaForma({ apartmanId }: { apartmanId: number })
       >
         Rezerviši
       </button>
+      <Link href="/admin" className="px-4 py-2 text-blue-500 hover:text-blue-400 mb-4">
+        Admin
+      </Link>
     </div>
   );
 }

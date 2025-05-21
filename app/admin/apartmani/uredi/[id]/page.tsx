@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Toast from '@/components/ui/Toast';
+import { UploadButton } from '@/lib/uploadthing';
 
 type Apartman = {
     id: number;
@@ -73,7 +75,7 @@ export default function UpdateApartman() {
         .map((s) => s.trim())
         .filter(Boolean), // ovo će napraviti string[]
     };
-
+    const images = form.slike.split(',').map((s) => s.trim()).filter(Boolean);
     const res = await fetch(`/api/apartmani/${params.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -121,17 +123,35 @@ export default function UpdateApartman() {
           {greske.opis && <p className="text-red-500 text-sm">{greske.opis.join(', ')}</p>}
         </div>
         <div>
-          <label className="block font-medium">Slika</label>
           <input
             type="text"
             name="slike"
             value={form.slike}
             onChange={handleChange}
-
             className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-
+            placeholder="URL slike (odvojiti zarezom)"
           />
           {greske.slike && <p className="text-red-500 text-sm">{greske.slike.join(', ')}</p>}
+          <div className='flex gap-2'>
+            <UploadButton
+              endpoint='imageUploader'
+              onClientUploadComplete={(res: { url: string }[]) => {
+                setForm((prev) => ({
+                  ...prev,
+                  slike: [
+                    ...prev.slike
+                      .split(',')
+                      .map((s) => s.trim())
+                      .filter(Boolean),
+                    res[0].url,
+                  ].join(','),
+                }));
+              }}
+              onUploadError={(error: Error) => {
+                setToast(`ERROR! ${error.message}`);
+              }}
+            />
+          </div>
         </div>
         <div>
           <label className="block font-medium">Cijena</label>
