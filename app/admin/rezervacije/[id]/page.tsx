@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
-import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+
+import PotvrdiBrisanjeRezrevacije from '@/components/PotvrdaBrisanjaModal/PotvrdiBrisanjeRezrevacije.tsx';
 import Toast from '@/components/ui/Toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -142,7 +143,7 @@ return (
       </div>
        <Toast message={toast} />
     </div>
-    <ConfirmDeleteModal
+    <PotvrdiBrisanjeRezrevacije
       isOpen={isModalOpen}
       onClose={closeDeleteConfirmModal}
       onConfirm={() => deleteRezervacije(inputId)}

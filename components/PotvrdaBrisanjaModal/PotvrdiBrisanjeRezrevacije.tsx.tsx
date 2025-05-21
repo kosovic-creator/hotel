@@ -2,15 +2,15 @@
 import React from "react";
 
 
-interface ConfirmDeleteModalProps {
+interface PotvrdiBrisanjeRezrevacijeProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   itemId: string | number;
- apartman: string;
+  apartman: string;
 }
 
-const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
+const PotvrdiBrisanjeRezrevacije: React.FC<PotvrdiBrisanjeRezrevacijeProps> = ({
   isOpen,
   onClose,
   onConfirm,
@@ -47,4 +47,4 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   );
 };
 
-export default ConfirmDeleteModal;
+export default PotvrdiBrisanjeRezrevacije;
