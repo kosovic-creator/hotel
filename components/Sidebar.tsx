@@ -45,15 +45,6 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
 
     return (
         <>
-            {/* Toggle Button */}
-            {/* <button
-                className="fixed top-4 left-4 z-50 bg-gray-700 text-white p-2 rounded"
-                onClick={() => setIsVisible(!isVisible)}
-            >
-                {isVisible ? "" : "☰"}
-            </button> */}
-
-            {/* Sidebar */}
             <aside
                 id="sidebar"
                 className={`fixed top-0 left-0 h-full bg-gray-800 text-white w-38 p-4 transform ${isVisible ? "translate-x-0" : "-translate-x-full"
