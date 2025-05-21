@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-
+import { GlobalProvider } from "@/app/context/GlobalContext";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
@@ -30,12 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SessionClientProvider>
-          {/* <Nav isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+        <GlobalProvider>
+          <SessionClientProvider>
+            {/* <Nav isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
           <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}> */}
             {children}
-          {/* </div> */}
-        </SessionClientProvider>
+            {/* </div> */}
+          </SessionClientProvider>
+        </GlobalProvider>
       </body>
     </html>
   );
