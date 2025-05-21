@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 type Korisnik = {
@@ -36,9 +37,10 @@ export default function KorisniciTabela() {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Korisnici</h1>
-<button onClick={() => window.location.href = '/admin/korisnici/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900 mb-4">
+{/* <button onClick={() => window.location.href = '/admin/korisnici/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900 mb-4">
   Dodaj korisnika
-</button>
+</button> */}
+<Link href="/admin/korisnici/dodaj">Dodaj</Link>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-200">
@@ -58,12 +60,7 @@ export default function KorisniciTabela() {
                   <td className="px-6 py-4 whitespace-nowrap">{korisnik.ime ?? ''}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{korisnik.prezime ?? ''}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      onClick={() => window.location.href = `/admin/korisnici/${korisnik.id}`}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      Detalji
-                    </button>
+                    <Link href={`/admin/korisnici/${korisnik.id}`}>Detalji</Link>
                   </td>
                 </tr>
               ))}

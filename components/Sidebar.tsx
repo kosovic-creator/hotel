@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                 className={`fixed top-0 left-0 h-full bg-gray-800 text-white w-38 p-4 transform ${isVisible ? "translate-x-0" : "-translate-x-full"
                     } transition-transform duration-300 ease-in-out flex flex-col`}
             >
-                <div className="flex flex-col gap-4 pt-4 items-start">
+                <div className="flex flex-col gap-4 pt-4 items-start mt-14 ">
                     <Link href="/admin/apartmani" className="hover:underline">
                         Apartmani
                     </Link>
@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                     <Link href="/admin/korisnici" className="hover:underline">
                         Korisnici
                     </Link>
-                    {/* Prijava/odjava dugme odmah ispod linkova, levo */}
+                   <div className="mt-12">
                     {session ? (
                         <SignOut />
                     ) : (
@@ -76,6 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                             Prijavi se
                         </Link>
                     )}
+                   </div>
                 </div>
             </aside>
         </>

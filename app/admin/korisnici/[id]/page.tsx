@@ -76,10 +76,9 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
     setSelectedItemId(null);
   };
   return (
-   <div className="flex items-center justify-center min-h-screen bg-gray-50">
-    <div className="w-full max-w-xl">
-      {/* You can add a form here if needed */}
-      <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-4 bg-white border-2 border-gray-100 rounded pl-4 pr-4"></form>
+  <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-md">
+      <div className="w-full max-w-xl">
+    
       {korisnik && (
         <div className="flex-col text-left p-2 ">
           <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Korisnika</h1>

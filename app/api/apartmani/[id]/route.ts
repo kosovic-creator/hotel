@@ -72,12 +72,23 @@ export async function PUT(req: Request) {
 
 export async function DELETE(request: NextRequest) {
   const url = new URL(request.url);
-  const id = parseInt(url.pathname.split('/').pop() || '', 10); // Parse `id` as a number
+  const id = parseInt(url.pathname.split('/').pop() || '', 10);
 
   if (isNaN(id)) {
     return NextResponse.json({ message: 'ID nije prosleđen ili nije validan broj.' }, { status: 400 });
   }
 
-  await prisma.apartman.delete({ where: { id } }); // Use `id` as a number
-  return NextResponse.json({ message: 'Deleted' });
+  try {
+    // Prvo obriši sve rezervacije za taj apartman
+    await prisma.rezervacija.deleteMany({ where: { apartmanId: id } });
+
+    // Sada možeš obrisati apartman
+    await prisma.apartman.delete({ where: { id } });
+
+    return NextResponse.json({ message: 'Deleted' });
+  } catch (error) {
+    return NextResponse.json({ message: 'Greška pri brisanju', detalji: String(error) }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
 }

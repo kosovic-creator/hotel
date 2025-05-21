@@ -36,8 +36,8 @@ export default function RezervacijePage() {
           Dodaj rezervaciju
         </button>
       </div>
-     <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-200">
             <tr >
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
@@ -64,9 +64,7 @@ export default function RezervacijePage() {
                 <td className="px-6 py-4 whitespace-nowrap">{r.korisnik?.email}</td>
                 <td>
                   <div className="flex gap-2 flex-row-reverse w-full">
-                    <Link href={`/admin/rezervacije/${r.id}`} >
-                      <button  className="text-blue-600 hover:text-blue-900 mr-3">Pregled</button>
-                    </Link>
+                    <Link href={`/admin/rezervacije/${r.id}`}>Detalji</Link>
                   </div>
                 </td>
               </tr>

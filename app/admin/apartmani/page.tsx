@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Image from 'next/image';
 import Nav from '@/components/Nav'; // Dodaj import
+import Link from 'next/link';
 
 type Apartman = {
   id: number
@@ -131,12 +132,13 @@ export default function ApartmaniTabela() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <button
+                    {/* <button
                       onClick={() => window.location.href = `/admin/apartmani/${apartman.id}`}
                       className="text-blue-600 hover:text-blue-900"
                     >
                       Detalji
-                    </button>
+                    </button> */}
+                    <Link href={`/admin/apartmani/${apartman.id}`}>Detalji</Link>
                   </td>
                 </tr>
               ))}
