@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 const RezervacijaSchema = z.object({
   apartmanId: z.number().int().positive(),
-  korisnikId: z.number().int().positive(), // Promijenite u number
+  // korisnikId: z.number().int().positive(), // Promijenite u number
   pocetak: z.string().datetime(),
   kraj: z.string().datetime(),
   gosti: z.number().int().positive()
@@ -19,9 +19,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     if (body.pocetak) body.pocetak = new Date(body.pocetak).toISOString();
     if (body.kraj) body.kraj = new Date(body.kraj).toISOString();
-
     const validacija = RezervacijaSchema.safeParse(body);
-
     if (!validacija.success) {
       return NextResponse.json(
         { greske: validacija.error.flatten() },
