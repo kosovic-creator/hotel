@@ -130,7 +130,7 @@ export default function PregledSlobodnihApartmana() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
                       className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-                      href="/rezervacije/dodaj"
+                      href="/admin/rezervacije/dodaj"
                     >
                       Dodaj
                     </Link>
