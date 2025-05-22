@@ -19,7 +19,7 @@ export default function AddRezervacijaPage() {
     korisnikId: '',
     pocetak: '',
     kraj: '',
-    gosti: 1,
+    gosti:'',
   });
   const [poruka, setPoruka] = useState('');
   const [rezervacije, setRezervacije] = useState<{ pocetak: string, kraj: string }[]>([]);
@@ -66,7 +66,7 @@ export default function AddRezervacijaPage() {
         korisnikId: '',
         pocetak: '',
         kraj: '',
-        gosti: 1,
+        gosti:'',
       });
       router.push('/admin/rezervacije');
     } else {
@@ -93,8 +93,6 @@ export default function AddRezervacijaPage() {
             </option>
           ))}
         </select>
-
-
         <select
           value={form.korisnikId}
           onChange={e => setForm(f => ({ ...f, korisnikId: e.target.value }))}
@@ -107,7 +105,6 @@ export default function AddRezervacijaPage() {
             </option>
           ))}
         </select>
-
         {rezervacije.length > 0 && (
           <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded border">
             <b className="text-gray-700">Zauzeti periodi:</b>
@@ -121,7 +118,6 @@ export default function AddRezervacijaPage() {
           </div>
         )}
         <div className="flex flex-col gap-1 font-medium text-gray-700">
-
           <DatePicker
             selected={form.pocetak ? new Date(form.pocetak) : null}
             onChange={date => setForm(f => ({ ...f, pocetak: date ? date.toISOString().slice(0, 10) : '' }))}
@@ -144,7 +140,6 @@ export default function AddRezervacijaPage() {
           />
         </div>
         <div className="flex flex-col gap-1 font-medium text-gray-700">
-
           <DatePicker
             selected={form.kraj ? new Date(form.kraj) : null}
             onChange={date => setForm(f => ({ ...f, kraj: date ? date.toISOString().slice(0, 10) : '' }))}
@@ -166,15 +161,14 @@ export default function AddRezervacijaPage() {
             placeholderText="Izaberi datum kraja"
           />
         </div>
-
         <input
           type="number"
           min={1}
           required
           value={form.gosti}
-          onChange={e => setForm(f => ({ ...f, gosti: Number(e.target.value) }))}
+          onChange={e => setForm(f => ({ ...f, gosti: e.target.value }))}
           className="mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-32"
-          placeholder="Izaberi broj osoba"
+          placeholder="broj osoba"
         />
 
         <button
