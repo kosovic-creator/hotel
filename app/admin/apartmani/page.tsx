@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Image from 'next/image';
-import Nav from '@/components/Nav'; // Dodaj import
 import Link from 'next/link';
 
 type Apartman = {
@@ -70,10 +69,10 @@ export default function ApartmaniTabela() {
     <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
       <div className="max-w-6xl mx-auto p-4">
         <h1 className="text-2xl  mb-4">Apartmani</h1>
-        
+
         <Link
         className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-        href="/apartmani/dodaj"
+        href="/admin/apartmani/dodaj"
       >
         Dodaj
       </Link>
@@ -114,7 +113,7 @@ export default function ApartmaniTabela() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link className='mr-3' href={`/apartmani/${apartman.id}`}>Detalji</Link>
+                    <Link className='mr-3' href={`/admin/apartmani/${apartman.id}`}>Detalji</Link>
                   </td>
                 </tr>
               ))}

@@ -67,14 +67,13 @@ export default function UpdateRezervacija() {
 
     if (res.ok) {
         setToast('Korisnik je uspešno izmjenjen!');
-      router.push('/korisnici');
+      router.push('/admin/korisnici');
     } else {
       const data = await res.json();
       setGreske(data.greske?.fieldErrors || {});
     }
     setLoading(false);
   }
-
   return (
     <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-md">
       <h2 className="text-2xl  mb-6 text-center text-black">Ažuriraj Korisnika</h2>

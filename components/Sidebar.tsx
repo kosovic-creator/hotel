@@ -66,21 +66,16 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                         Rezervacija
                     </Link>
 
-                    <Link href="/apartmani" className="hover:underline">
+                    <Link href="/admin/apartmani" className="hover:underline">
                         Apartmani
                     </Link>
                     <Link
-                        href="/rezervacije"
+                        href="/admin/rezervacije"
                         className="hover:underline"
-                        onClick={(e) => {
-                            e.preventDefault(); // Sprečava defaultno ponašanje
-                            router.push("/rezervacije"); // Navigacija na /todo
-                            router.refresh() // Osvježavanje stranice
-                        }}
                     >
                         <h1 >Rezervacije</h1>
                     </Link>
-                    <Link href="/korisnici" className="hover:underline">
+                    <Link href="/admin/korisnici" className="hover:underline">
                         Korisnici
                     </Link>
                     <div className="mt-12">

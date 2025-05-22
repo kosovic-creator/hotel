@@ -46,7 +46,6 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
       setLoading(false);
     }
   };
-
   // Automatski pozovi kad se promijeni id
   useEffect(() => {
     if (id) {
@@ -60,7 +59,7 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
     setIsModalOpen(false);
 
     setToast('Rezervacija je uspešno obrisana!');
-    router.push('/rezervacije');
+    router.push('/admin/rezervacije');
   };
   // Ručno pretraživanje (ako želiš ostaviti formu)
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,12 +87,12 @@ export default function RezervacijaByIdForm({ params }: { params: Promise<{ id: 
           <p className="p-3"><>Završetak:</> {rezervacija.kraj}</p>
 
           <div className="flex gap-3 mt-7 w-full">
-            <Link href="/rezervacije">
+            <Link href="/admin/rezervacije">
               <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
                 Nazad
               </button>
             </Link>
-            <Link href={`/rezervacije/uredi/${rezervacija.id}`} >
+            <Link href={`/admin/rezervacije/uredi/${rezervacija.id}`} >
               <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
             </Link>
             <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(rezervacija.id)}>Briši</button>

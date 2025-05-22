@@ -36,7 +36,7 @@ export default function KorisniciTabela() {
       <h1 className="text-2xl  mb-4">Korisnici</h1>
       <Link
         className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-        href="/korisnici/dodaj"
+        href="/admin/korisnici/dodaj"
       >
         Dodaj
       </Link>
@@ -59,7 +59,7 @@ export default function KorisniciTabela() {
                 <td className="px-6 py-4 whitespace-nowrap">{korisnik.ime ?? ''}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{korisnik.prezime ?? ''}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Link href={`/korisnici/${korisnik.id}`}>Detalji</Link>
+                  <Link href={`/admin/korisnici/${korisnik.id}`}>Detalji</Link>
                 </td>
               </tr>
             ))}

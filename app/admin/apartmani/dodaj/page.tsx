@@ -34,7 +34,7 @@ export default function ApartmanForma() {
     });
     if (res.ok) {
       setPoruka('Apartman uspešno dodat!');
-      router.push('/apartmani');
+      router.push('/admin/apartmani');
     } else {
       setPoruka('Greška pri unosu apartmana.');
     }
@@ -70,7 +70,7 @@ export default function ApartmanForma() {
           className="w-full p-2 border rounded"
           min={0}
         />
-       
+
         <div className="flex flex-col items-center bg-amber-900 p-2 rounded">
          <UploadButton
                 endpoint='imageUploader'
@@ -87,7 +87,7 @@ export default function ApartmanForma() {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900"
+          className="px-4 py-2 bg-black text-white rounded hover:bg-blue-950"
         >
           Sačuvaj apartman
         </button>

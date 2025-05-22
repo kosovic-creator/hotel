@@ -23,7 +23,7 @@ export default function RezervacijePage() {
       <h1 className="text-2xl  mb-4">Rezervacije</h1>
       <Link
         className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-        href="/rezervacije/dodaj"
+        href="/admin/rezervacije/dodaj"
       >
         Dodaj
       </Link>
@@ -55,7 +55,7 @@ export default function RezervacijePage() {
                 <td className="px-6 py-4 whitespace-nowrap">{r.korisnik?.email}</td>
                 <td>
                   <div className="flex gap-2 flex-row-reverse w-full">
-                    <Link href={`/rezervacije/${r.id}`}>Detalji</Link>
+                    <Link href={`/admin/rezervacije/${r.id}`}>Detalji</Link>
                   </div>
                 </td>
               </tr>

@@ -25,7 +25,7 @@ export default function KorisnikForma() {
     });
     if (res.ok) {
       setPoruka('Korisnik uspešno dodat!');
-      router.push('/korisnici');
+      router.push('/admin/korisnici');
     } else {
       setPoruka('Greška pri unosu korisnika.');
     }

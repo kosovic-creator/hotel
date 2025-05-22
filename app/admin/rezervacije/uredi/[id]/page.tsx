@@ -33,11 +33,11 @@ export default function UpdateRezervacija() {
       if (res.ok) {
         const data = await res.json();
         setForm({
-          apartmanId: data.apartmanId,
-          korisnikId: data.korisnikId,
-          pocetak: data.pocetak.slice(0, 16), // za input type="datetime-local"
-          kraj: data.kraj.slice(0, 16),
-          gosti: data.gosti,
+          apartmanId: data.apartmanId ?? 0,
+          korisnikId: data.korisnikId ?? 0,
+          pocetak: data.pocetak ? data.pocetak.slice(0, 16) : '',
+          kraj: data.kraj ? data.kraj.slice(0, 16) : '',
+          gosti: data.gosti ?? 1,
         });
       }
     }
@@ -54,7 +54,6 @@ export default function UpdateRezervacija() {
         : value,
     }));
   }
-
   // Slanje forme
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -68,7 +67,7 @@ export default function UpdateRezervacija() {
 
     if (res.ok) {
         setToast('Rezervacija je uspešno izmjenjena!');
-      router.push('/rezervacije');
+      router.push('/admin/rezervacije');
     } else {
       const data = await res.json();
       setGreske(data.greske?.fieldErrors || {});

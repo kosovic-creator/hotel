@@ -33,7 +33,7 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
     setApartman(null);
     setLoading(true);
     try {
-      const res = await fetch(`/api/apartmani/${aparId}`);
+      const res = await fetch(`/api/admin/apartmani/${aparId}`);
       const data = await res.json();
       if (!res.ok) {
         setGreska(data.greska || 'Greška pri dohvatu apartmana');
