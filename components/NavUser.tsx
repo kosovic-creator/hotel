@@ -3,13 +3,13 @@ import React from 'react'
 import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
 import { useSession } from "next-auth/react";
-import Sidebar from './Sidebar';
+import SidebarUser from './SidebarUser';
 type NavProps = {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
 };
 
-export default function Nav({ isSidebarOpen, setIsSidebarOpen }: NavProps) {
+export default function NavUser({ isSidebarOpen, setIsSidebarOpen }: NavProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -49,7 +49,7 @@ export default function Nav({ isSidebarOpen, setIsSidebarOpen }: NavProps) {
           </div>
         </nav>
         {/* Sidebar komponenta */}
-        <Sidebar open={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} session={session} />
+        <SidebarUser open={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} session={session} />
       </header>
     </div>
   );
