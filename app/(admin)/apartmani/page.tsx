@@ -56,8 +56,6 @@ export default function ApartmaniTabela() {
     }
     Promise.all([ucitajApartmane(), ucitajRezervacije()]).finally(() => setLoading(false))
   }, [])
-
-  // if (loading) return <div className="text-center p-4">Učitavanje...</div>
   if (error) return <div className="text-red-500 p-4">Greška: {error}</div>
   const isApartmanDostupan = (apartmanId: number) => {
     if (!startDate || !endDate) return true;
@@ -71,7 +69,7 @@ export default function ApartmaniTabela() {
   return (
     <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
       <div className="max-w-6xl mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Apartmani</h1>
+        <h1 className="text-2xl  mb-4">Apartmani</h1>
         <div style={{ margin: '20px 0', display: 'flex', gap: 16 }}>
           <label>
             Početak:
@@ -135,7 +133,6 @@ export default function ApartmaniTabela() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-
                     <Link className='mr-3' href={`/apartmani/${apartman.id}`}>Detalji</Link>
                   </td>
                 </tr>

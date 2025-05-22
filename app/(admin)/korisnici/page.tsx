@@ -30,13 +30,10 @@ export default function KorisniciTabela() {
     }
     ucitajKorisnike()
   }, [])
-
-  // if (loading) return <div className="text-center p-4">Učitavanje korisnika...</div>
   if (error) return <div className="text-red-500 p-4">Greška: {error}</div>
-
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Korisnici</h1>
+      <h1 className="text-2xl  mb-4">Korisnici</h1>
       <Link
         className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
         href="/korisnici/dodaj"

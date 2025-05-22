@@ -78,7 +78,6 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
   return (
   <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-md">
       <div className="w-full max-w-xl">
-
       {korisnik && (
         <div className="flex-col text-left p-2 ">
           <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Korisnika</h1>
@@ -86,7 +85,6 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
           <p className="p-3"><>Ime:</> {korisnik.ime}</p>
           <p className="p-3"><>Prezime:</> {korisnik.prezime}</p>
           <p className="p-3"><>Email:</> {korisnik.email}</p>
-
           <div className="flex gap-3 mt-7 w-full">
             <Link href="/korisnici">
               <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
