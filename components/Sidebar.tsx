@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { SignOut } from "@/components/sign-out";
-import { redirect, useRouter } from "next/navigation"; // Import useRouter from next/navigation
 import { Session } from "next-auth"; // Import Session type
 
 export type SidebarProps = {
@@ -13,7 +12,6 @@ export type SidebarProps = {
 
 const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
     const [isVisible, setIsVisible] = useState(open);
-    const router = useRouter(); // Next.js router
 
     // Redirect to sign-in if no session
     useEffect(() => {
