@@ -31,13 +31,30 @@ const handler = NextAuth({
           throw new Error("Netačan email ili lozinka");
         }
 
-        return { id: user.id.toString(), email: user.email };
+        // Dodaj rolu u objekat koji se vraća
+        return { id: user.id.toString(), email: user.email, role: user.role };
       },
     }),
   ],
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      // Dodaj rolu u JWT token
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Dodaj rolu u session objekat
+      if (token && session.user) {
+        session.user.role = token.role as string;
+      }
+      return session;
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
