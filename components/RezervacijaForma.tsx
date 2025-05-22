@@ -33,7 +33,7 @@ export default function RezervacijaForma({ apartmanId }: { apartmanId: number })
   return (
     <div className="max-w-4xl p-10 bg-white rounded-lg shadow w-full">
       <div className="mb-4 w-full">
-        <label className="block mb-2">Odaberite datume:</label>
+        {/* <label className="block mb-2">Odaberite datume:</label> */}
         <DatePicker
           selected={pocetak}
           onChange={(dates: [Date | null, Date | null]) => {
@@ -53,11 +53,11 @@ export default function RezervacijaForma({ apartmanId }: { apartmanId: number })
       </div>
       <button
         onClick={potvrdiRezervaciju}
-        className="w-60 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+        className="w-60 py-2 text-white bg-blue-900 rounded hover:bg-blue-700"
       >
         Rezerviši
       </button>
-      <Link href="/admin" className="px-4 py-2 text-blue-100 hover:text-blue-400 mb-4">
+      <Link href="/admin" className="px-4 py-2 text-blue-700 hover:text-blue-400 mb-4">
         Admin
       </Link>
     </div>
