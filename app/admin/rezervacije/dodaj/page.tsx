@@ -19,7 +19,7 @@ export default function AddRezervacijaPage() {
     korisnikId: '',
     pocetak: '',
     kraj: '',
-    gosti:'',
+    gosti: '', // <-- promjena ovdje
   });
   const [poruka, setPoruka] = useState('');
   const [rezervacije, setRezervacije] = useState<{ pocetak: string, kraj: string }[]>([]);
@@ -53,6 +53,7 @@ export default function AddRezervacijaPage() {
       korisnikId: Number(form.korisnikId),
       pocetak: new Date(form.pocetak).toISOString(),
       kraj: new Date(form.kraj).toISOString(),
+      gosti: Number(form.gosti), // <-- dodajte ovo
     };
     const res = await fetch('/api/rezervacije', {
       method: 'POST',
@@ -66,7 +67,7 @@ export default function AddRezervacijaPage() {
         korisnikId: '',
         pocetak: '',
         kraj: '',
-        gosti:'',
+        gosti: '',
       });
       router.push('/admin/rezervacije');
     } else {

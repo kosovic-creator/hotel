@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 const RezervacijaSchema = z.object({
   apartmanId: z.number().int().positive(),
-  // korisnikId: z.number().int().positive(), // Promijenite u number
+  korisnikId: z.number().int().positive(), // Promijenite u number
   pocetak: z.string().datetime(),
   kraj: z.string().datetime(),
   gosti: z.number().int().positive()
