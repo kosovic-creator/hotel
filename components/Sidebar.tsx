@@ -6,9 +6,9 @@ import { redirect, useRouter } from "next/navigation"; // Import useRouter from 
 import { Session } from "next-auth"; // Import Session type
 
 export type SidebarProps = {
-  session: Session;
-  open: boolean;
-  onClose: () => void;
+    session: Session;
+    open: boolean;
+    onClose: () => void;
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
@@ -62,6 +62,10 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                     } transition-transform duration-300 ease-in-out flex flex-col`}
             >
                 <div className="flex flex-col gap-4 pt-4 items-start mt-14 ">
+                    <Link href="/pregled-slobodnih-apartmana" className="hover:underline">
+                        Rezervacija
+                    </Link>
+
                     <Link href="/apartmani" className="hover:underline">
                         Apartmani
                     </Link>
@@ -79,15 +83,15 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                     <Link href="/korisnici" className="hover:underline">
                         Korisnici
                     </Link>
-                   <div className="mt-12">
-                    {session ? (
-                        <SignOut />
-                    ) : (
-                        <Link href="/login" className="hover:underline">
-                            Prijavi se
-                        </Link>
-                    )}
-                   </div>
+                    <div className="mt-12">
+                        {session ? (
+                            <SignOut />
+                        ) : (
+                            <Link href="/login" className="hover:underline">
+                                Prijavi se
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </aside>
         </>

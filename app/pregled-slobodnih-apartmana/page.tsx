@@ -22,7 +22,7 @@ type Rezervacija = {
   kraj: string // ISO date string
 }
 
-export default function ApartmaniTabela() {
+export default function PregledSlobodnihApartmana() {
   const [apartmani, setApartmani] = useState<Apartman[]>([])
   const [rezervacije, setRezervacije] = useState<Rezervacija[]>([])
   const [loading, setLoading] = useState(true)
@@ -67,16 +67,30 @@ export default function ApartmaniTabela() {
     );
   };
   return (
+    <>
+    <Nav isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+    {/* Dodaj klasu za animaciju */}
     <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
       <div className="max-w-6xl mx-auto p-4">
-        <h1 className="text-2xl  mb-4">Apartmani</h1>
-        
-        <Link
-        className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-        href="/apartmani/dodaj"
-      >
-        Dodaj
-      </Link>
+        <h1 className="text-2xl  mb-4 text-center">Pregled</h1>
+        <div style={{ margin: '20px 0', display: 'flex', gap: 16 }}>
+            <DatePicker
+              className="border-2 border-gray-100 rounded-md px-3 py-1"
+              selected={startDate}
+              onChange={date => setStartDate(date)}
+              dateFormat="dd.MM.yyyy"
+              placeholderText="Unesite početni datum"
+            />
+            <DatePicker
+              className="border-2 border-gray-100 rounded-md px-3 py-1"
+              selected={endDate}
+              onChange={date => setEndDate(date)}
+              dateFormat="dd.MM.yyyy"
+              placeholderText="Unesite završni datum"
+            />
+
+        </div>
+
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead className="bg-gray-200">
@@ -86,7 +100,7 @@ export default function ApartmaniTabela() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Opis</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cijena (€)</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slike</th>
-                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-300">
@@ -114,7 +128,12 @@ export default function ApartmaniTabela() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link className='mr-3' href={`/apartmani/${apartman.id}`}>Detalji</Link>
+                    <Link
+                      className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
+                      href="/rezervacije/dodaj"
+                    >
+                      Dodaj
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -127,5 +146,6 @@ export default function ApartmaniTabela() {
         )}
       </div>
     </div>
+    </>
   )
 }
