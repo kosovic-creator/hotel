@@ -4,24 +4,24 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Toast from '@/components/ui/Toast';
 
-interface Korisnici {
+interface Rezervacija {
+  apartmanId: number;
   korisnikId: number;
-  ime: string;
-  prezime: string;
-  email: string;
-
+  pocetak: string;
+  kraj: string;
+  gosti: number;
 }
 
 export default function UpdateRezervacija() {
    const [toast, setToast] = useState<string | null>(null);
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const [form, setForm] = useState<Korisnici>({
+  const [form, setForm] = useState<Rezervacija>({
+    apartmanId: 0,
     korisnikId: 0,
-    ime: '',
-    prezime: '',
-    email: '',
-
+    pocetak: '',
+    kraj: '',
+    gosti: 1,
   });
   const [greske, setGreske] = useState<Record<string, string[]>>({});
   const [loading, setLoading] = useState(false);
@@ -29,14 +29,15 @@ export default function UpdateRezervacija() {
   // Učitaj postojeće podatke rezervacije
   useEffect(() => {
     async function fetchRezervacija() {
-      const res = await fetch(`/api/korisnici/${params.id}`);
+      const res = await fetch(`/api/rezervacije/${params.id}`);
       if (res.ok) {
         const data = await res.json();
         setForm({
+          apartmanId: data.apartmanId,
           korisnikId: data.korisnikId,
-          ime: data.ime,
-          prezime: data.prezime,
-          email: data.email,
+          pocetak: data.pocetak.slice(0, 16), // za input type="datetime-local"
+          kraj: data.kraj.slice(0, 16),
+          gosti: data.gosti,
         });
       }
     }
@@ -48,7 +49,7 @@ export default function UpdateRezervacija() {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === 'korisnikId'
+      [name]: name === 'gosti' || name === 'apartmanId' || name === 'korisnikId'
         ? Number(value)
         : value,
     }));
@@ -59,15 +60,15 @@ export default function UpdateRezervacija() {
     e.preventDefault();
     setLoading(true);
     setGreske({});
-    const res = await fetch(`/api/korisnici/${params.id}`, {
+    const res = await fetch(`/api/rezervacije/${params.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
 
     if (res.ok) {
-        setToast('Korisnik je uspešno izmjenjen!');
-      router.push('/admin/korisnici');
+        setToast('Rezervacija je uspešno izmjenjena!');
+      router.push('/rezervacije');
     } else {
       const data = await res.json();
       setGreske(data.greske?.fieldErrors || {});
@@ -77,46 +78,69 @@ export default function UpdateRezervacija() {
 
   return (
     <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl  mb-6 text-center text-black">Ažuriraj Korisnika</h2>
+      <h2 className="text-2xl  mb-6 text-center text-black">Ažuriraj Rezervaciju</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
-
         <div>
-          <label className="block font-medium">Ime</label>
+          <label className="block font-medium">Apartman ID</label>
           <input
-            type="text"
-            name="ime"
-            value={form.ime}
+            type="number"
+            name="apartmanId"
+            value={form.apartmanId}
             onChange={handleChange}
             className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
-          {greske.ime && <p className="text-red-500 text-sm">{greske.ime.join(', ')}</p>}
+          {greske.apartmanId && <p className="text-red-500 text-sm">{greske.apartmanId.join(', ')}</p>}
         </div>
         <div>
-          <label className="block font-medium">Prezime</label>
+          <label className="block font-medium">Korisnik ID</label>
           <input
-            type="text"
-            name="prezime"
-            value={form.prezime}
+            type="number"
+            name="korisnikId"
+            value={form.korisnikId}
             onChange={handleChange}
             className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
-          {greske.prezime && <p className="text-red-500 text-sm">{greske.prezime.join(', ')}</p>}
+          {greske.korisnikId && <p className="text-red-500 text-sm">{greske.korisnikId.join(', ')}</p>}
         </div>
         <div>
-          <label className="block font-medium">Email</label>
+          <label className="block font-medium">Početak</label>
           <input
-            type="email"
-            name="email"
-            value={form.email}
+            type="datetime-local"
+            name="pocetak"
+            value={form.pocetak}
             onChange={handleChange}
             className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
-          {greske.email && <p className="text-red-500 text-sm">{greske.email.join(', ')}</p>}
+          {greske.pocetak && <p className="text-red-500 text-sm">{greske.pocetak.join(', ')}</p>}
         </div>
-
+        <div>
+          <label className="block font-medium">Kraj</label>
+          <input
+            type="datetime-local"
+            name="kraj"
+            value={form.kraj}
+            onChange={handleChange}
+            className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          {greske.kraj && <p className="text-red-500 text-sm">{greske.kraj.join(', ')}</p>}
+        </div>
+        <div>
+          <label className="block font-medium">Broj gostiju</label>
+          <input
+            type="number"
+            name="gosti"
+            min={1}
+            value={form.gosti}
+            onChange={handleChange}
+            className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          {greske.gosti && <p className="text-red-500 text-sm">{greske.gosti.join(', ')}</p>}
+        </div>
         <button
           type="submit"
           disabled={loading}

@@ -43,6 +43,17 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
         setIsVisible(open);
     }, [open]);
 
+    // Automatsko zatvaranje sidebara na timer
+    useEffect(() => {
+        if (isVisible) {
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+                onClose();
+            }, 3000); // 3000ms = 3 sekunde
+            return () => clearTimeout(timer);
+        }
+    }, [isVisible, onClose]);
+
     return (
         <>
             <aside
@@ -51,21 +62,21 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                     } transition-transform duration-300 ease-in-out flex flex-col`}
             >
                 <div className="flex flex-col gap-4 pt-4 items-start mt-14 ">
-                    <Link href="/admin/apartmani" className="hover:underline">
+                    <Link href="/apartmani" className="hover:underline">
                         Apartmani
                     </Link>
                     <Link
-                        href="/admin/rezervacije"
+                        href="/rezervacije"
                         className="hover:underline"
                         onClick={(e) => {
                             e.preventDefault(); // Sprečava defaultno ponašanje
-                            router.push("/admin/rezervacije"); // Navigacija na /todo
+                            router.push("/rezervacije"); // Navigacija na /todo
                             router.refresh() // Osvježavanje stranice
                         }}
                     >
                         <h1 >Rezervacije</h1>
                     </Link>
-                    <Link href="/admin/korisnici" className="hover:underline">
+                    <Link href="/korisnici" className="hover:underline">
                         Korisnici
                     </Link>
                    <div className="mt-12">

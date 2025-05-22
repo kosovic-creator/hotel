@@ -31,11 +31,12 @@ export default function RezervacijePage() {
     <div className="max-w-6xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Rezervacije</h1>
 
-      <div style={{ margin: '20px 0', display: 'flex', gap: 16 }}>
-        <button type='button' onClick={() => window.location.href = '/admin/rezervacije/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900">
-          Dodaj rezervaciju
-        </button>
-      </div>
+      <Link
+        className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
+        href="/rezervacije/dodaj"
+      >
+        Dodaj
+      </Link>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-200">
@@ -64,7 +65,7 @@ export default function RezervacijePage() {
                 <td className="px-6 py-4 whitespace-nowrap">{r.korisnik?.email}</td>
                 <td>
                   <div className="flex gap-2 flex-row-reverse w-full">
-                    <Link href={`/admin/rezervacije/${r.id}`}>Detalji</Link>
+                    <Link href={`/rezervacije/${r.id}`}>Detalji</Link>
                   </div>
                 </td>
               </tr>

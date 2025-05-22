@@ -84,7 +84,7 @@ export default function UpdateApartman() {
 
     if (res.ok) {
         setToast('Apartman je uspješno ažuriran!');
-      router.push('/admin/apartmani');
+      router.push('/apartmani');
     } else {
       const data = await res.json();
       setGreske(data.greske?.fieldErrors || {});

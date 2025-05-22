@@ -68,7 +68,7 @@ export default function AddRezervacijaPage() {
         kraj: '',
         gosti: 1,
       });
-      router.push('/admin/rezervacije');
+      router.push('/rezervacije');
     } else {
       setPoruka('Greška pri dodavanju rezervacije.');
     }

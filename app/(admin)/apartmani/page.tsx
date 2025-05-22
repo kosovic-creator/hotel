@@ -92,9 +92,12 @@ export default function ApartmaniTabela() {
             />
           </label>
         </div>
-        <button onClick={() => window.location.href = '/admin/apartmani/dodaj'} className="px-4 py-2 bg-black text-white rounded hover:bg-blue-900 mb-4" type="button">
-          Dodaj apartman
-        </button>
+        <Link
+        className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
+        href="/apartmani/dodaj"
+      >
+        Dodaj
+      </Link>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead className="bg-gray-200">
@@ -132,13 +135,8 @@ export default function ApartmaniTabela() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {/* <button
-                      onClick={() => window.location.href = `/admin/apartmani/${apartman.id}`}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      Detalji
-                    </button> */}
-                    <Link href={`/admin/apartmani/${apartman.id}`}>Detalji</Link>
+
+                    <Link className='mr-3' href={`/apartmani/${apartman.id}`}>Detalji</Link>
                   </td>
                 </tr>
               ))}

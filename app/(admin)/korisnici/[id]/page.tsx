@@ -60,7 +60,7 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
     setIsModalOpen(false);
 
     setToast('Korisnik je uspešno obrisan!');
-    router.push('/admin/korisnici');
+    router.push('/korisnici');
   };
   // Ručno pretraživanje (ako želiš ostaviti formu)
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +78,7 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
   return (
   <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-md">
       <div className="w-full max-w-xl">
-    
+
       {korisnik && (
         <div className="flex-col text-left p-2 ">
           <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Korisnika</h1>
@@ -88,12 +88,12 @@ export default function KorisnikByIdForm({ params }: { params: Promise<{ id: num
           <p className="p-3"><>Email:</> {korisnik.email}</p>
 
           <div className="flex gap-3 mt-7 w-full">
-            <Link href="/admin/korisnici">
+            <Link href="/korisnici">
               <button className="px-4 py-2 rounded bg-black text-white hover:bg-yellow-600 transition">
                 Nazad
               </button>
             </Link>
-            <Link href={`/admin/korisnici/uredi/${korisnik.id}`} >
+            <Link href={`/korisnici/uredi/${korisnik.id}`} >
               <button className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition">Izmjeni</button>
             </Link>
             <button className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition " onClick={() => openDeleteConfirmModal(korisnik.id)}>Briši</button>
