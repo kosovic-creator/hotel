@@ -38,7 +38,7 @@ model Rezervacija {
   createdAt   DateTime  @default(now())
 }
 
-model User {
+model Korisnik {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
@@ -51,9 +51,3 @@ enum Role {
   USER
 }
 
-model test{
-  id        Int      @id @default(autoincrement())
-  ime String
-  broj Int?
-
-}

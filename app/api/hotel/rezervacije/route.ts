@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
@@ -14,46 +14,22 @@ const RezervacijaSchema = z.object({
   gosti: z.number().int().positive()
 });
 
-export async function POST(req: Request) {
-  try {
-    const body = await req.json();
-    if (body.pocetak) body.pocetak = new Date(body.pocetak).toISOString();
-    if (body.kraj) body.kraj = new Date(body.kraj).toISOString();
-    const validacija = RezervacijaSchema.safeParse(body);
-    if (!validacija.success) {
-      return NextResponse.json(
-        { greske: validacija.error.flatten() },
-        { status: 400 }
-      );
-    }
-
+// CREATE
+export async function POST(request: NextRequest) {
+  const body = await request.json();
   const novaRezervacija = await prisma.rezervacija.create({
-    data: {
-      ...validacija.data,
-      pocetak: new Date(validacija.data.pocetak),
-      kraj: new Date(validacija.data.kraj)
-    }
+    data: body,
   });
-
-    return NextResponse.json(novaRezervacija, { status: 201 });
-
-  } catch (error) {
-    return NextResponse.json(
-      { greska: 'Serverska greška' },
-      { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
-    redirect('/admin/rezervacije');
-  }
+  return NextResponse.json(novaRezervacija);
 }
 
+// READ (svi todo)
 export async function GET() {
   try {
     const rezervacije = await prisma.rezervacija.findMany({
       include: {
-        apartman: true,
-        korisnik: {
+        sobe: true,
+        gost: {
           select: {
             id: true,
             ime: true,

@@ -4,14 +4,14 @@ import prisma from '@/lib/prisma';
 // CREATE
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const novaSoba = await prisma.sobe.create({
+  const noviKorisnik = await prisma.korisnik.create({
     data: body,
   });
-  return NextResponse.json(novaSoba);
+  return NextResponse.json(noviKorisnik);
 }
 
 // READ (svi todo)
 export async function GET() {
-  const soba = await prisma.sobe.findMany();
-  return NextResponse.json(soba);
+  const korisnici = await prisma.korisnik.findMany();
+  return NextResponse.json(korisnici);
 }

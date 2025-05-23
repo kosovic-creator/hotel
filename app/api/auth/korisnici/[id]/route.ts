@@ -11,21 +11,11 @@ function getIdFromRequest(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const id = getIdFromRequest(request);
-    const rezervacije = await prisma.rezervacija.findUnique({
+    const korisnici = await prisma.korisnik.findUnique({
       where: { id: Number(id) },
-      include: {
-        sobe: true,
-        gost: {
-          select: {
-            id: true,
-            ime: true,
-            email: true
-          }
-        }
-      }
     });
-    if (!rezervacije) return NextResponse.json({ error: 'Nije nađena Rezervacija' }, { status: 404 });
-    return NextResponse.json(rezervacije);
+    if (!korisnici) return NextResponse.json({ error: 'Nije nađen Korisnik' }, { status: 404 });
+    return NextResponse.json(korisnici);
   } catch {
     return NextResponse.json({ error: 'Neispravan ID' }, { status: 400 });
   }
@@ -36,13 +26,13 @@ export async function PUT(request: NextRequest) {
   try {
     const id = getIdFromRequest(request);
     const body = await request.json();
-    const azurirano = await prisma.rezervacija.update({
+    const azurirano = await prisma.korisnik.update({
       where: { id: Number(id) },
       data: body,
     });
     return NextResponse.json(azurirano);
   } catch {
-    return NextResponse.json({ error: 'Rezervacija nije nađena ili nisu dobri podaci' }, { status: 404 });
+    return NextResponse.json({ error: 'Soba nije nađena ili nisu dobri podaci' }, { status: 404 });
   }
 }
 
@@ -50,7 +40,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const id = getIdFromRequest(request);
-    await prisma.rezervacija.delete({
+    await prisma.korisnik.delete({
       where: { id: Number(id) },
     });
     return NextResponse.json({ message: 'Obrisana' });
