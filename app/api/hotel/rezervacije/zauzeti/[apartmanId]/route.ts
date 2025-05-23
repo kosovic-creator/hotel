@@ -4,18 +4,18 @@ import prisma from '@/lib/prisma';
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const pathParts = url.pathname.split('/');
-  const apartmanId = parseInt(pathParts[pathParts.length - 1], 10);
+  const sobeId = parseInt(pathParts[pathParts.length - 1], 10);
 
-  if (isNaN(apartmanId)) {
+  if (isNaN(sobeId)) {
     return NextResponse.json({ error: 'Neispravan ID apartmana' }, { status: 400 });
   }
 
   const rezervacije = await prisma.rezervacija.findMany({
-    where: { apartmanId },
+    where: {sobeId },
     select: {
       pocetak: true,
       kraj: true,
-      korisnik: {
+      gost: {
         select: {
           ime: true,
           prezime: true
@@ -28,8 +28,8 @@ export async function GET(request: Request) {
     rezervacije.map(r => ({
       start: r.pocetak,
       end: r.kraj,
-      imeKorisnika: r.korisnik?.ime ?? null,
-      prezimeKorisnika: r.korisnik?.prezime ?? null
+      imeKorisnika: r.gost?.ime ?? null,
+      prezimeKorisnika: r.gost?.prezime ?? null
     }))
   );
 }

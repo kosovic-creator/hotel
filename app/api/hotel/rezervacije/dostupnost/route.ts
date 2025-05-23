@@ -8,16 +8,16 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   const Schema = z.object({
-  apartmanId: z.number().int().positive(),
+ sobeId: z.number().int().positive(),
   pocetak: z.string().datetime(),
   kraj: z.string().datetime()
 });
   try {
-    const { apartmanId, pocetak, kraj } = await req.json();
+    const {sobeId, pocetak, kraj } = await req.json();
 
     const postojeceRezervacije = await prisma.rezervacija.findMany({
       where: {
-        apartmanId,
+       sobeId,
        AND: [
   { pocetak: { lt: kraj } },
   { kraj: { gt: pocetak } }

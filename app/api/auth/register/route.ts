@@ -9,13 +9,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Email i lozinka su obavezni." }, { status: 400 });
   }
 
-  const existingUser = await prisma.user.findUnique({ where: { email } });
+  const existingUser = await prisma.korisnik.findUnique({ where: { email } });
   if (existingUser) {
     return NextResponse.json({ error: "Korisnik već postoji." }, { status: 409 });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({
+  const user = await prisma.korisnik.create({
     data: { email, password: hashedPassword },
   });
 

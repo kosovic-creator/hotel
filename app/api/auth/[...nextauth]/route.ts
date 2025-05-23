@@ -18,7 +18,7 @@ const handler = NextAuth({
           throw new Error("Unesi email i lozinku");
         }
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.korisnik.findUnique({
           where: { email: credentials.email },
         });
 
