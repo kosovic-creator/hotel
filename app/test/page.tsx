@@ -15,6 +15,7 @@ export default function GetTest() {
             .then(setTest);
     }, [])
     return (
+        <>
         <div>
             {test.map((t: Test) => (
                 <ul key={t.id}>
@@ -23,5 +24,23 @@ export default function GetTest() {
                 </ul>
             ))}
         </div>
+        <div>
+<form action="http://localhost:3000/test/api" method="POST">
+    <input type="text" name="ime" placeholder="Ime" />
+    <input type="number" name="broj" placeholder="Broj" />
+    <button type="submit">Dodaj</button>
+</form>
+<form action="http://localhost:3000/test/api/1" method="DELETE">
+    <input type="number" name="id" placeholder="ID" />
+    <button type="submit">Obriši</button>
+</form>
+<form action="http://localhost:3000/test/api/1" method="PUT">
+    <input type="number" name="id" placeholder="ID" />
+    <input type="text" name="ime" placeholder="Ime" />
+    <input type="number" name="broj" placeholder="Broj" />
+    <button type="submit">Izmeni</button>
+</form>
+        </div>
+        </>
     )
 }

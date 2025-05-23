@@ -8,16 +8,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Korisnik {
+model Gost {
   id          Int          @id @default(autoincrement())
   email       String       @unique
-  lozinka     String
   ime         String?
   prezime     String?
   rezervacije Rezervacija[]
 }
 
-model Apartman {
+model Sobe {
   id          Int           @id @default(autoincrement())
   naziv       String
   opis        String
@@ -28,13 +27,13 @@ model Apartman {
 
 model Rezervacija {
   id          Int       @id @default(autoincrement())
-  apartman    Apartman  @relation(fields: [apartmanId], references: [id])
-  apartmanId  Int
-  korisnik    Korisnik?  @relation(fields: [korisnikId], references: [id])
-  korisnikId  Int?
+  sobe        Sobe  @relation(fields: [sobeId], references: [id])
+  sobeId      Int
+  gost        Gost?  @relation(fields: [gostId], references: [id])
+  gostId      Int?
   pocetak     DateTime
   kraj        DateTime
-  gosti       Int
+  osoba       Int
   status      String    @default("na čekanju")
   createdAt   DateTime  @default(now())
 }
