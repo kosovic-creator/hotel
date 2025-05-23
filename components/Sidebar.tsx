@@ -75,8 +75,8 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                     >
                         <h1 >Rezervacije</h1>
                     </Link>
-                    <Link href="/admin/korisnici" className="hover:underline">
-                        Korisnici
+                    <Link href="/admin/gosti" className="hover:underline">
+                        Gosti
                     </Link>
                     <div className="mt-12">
                         {session ? (
