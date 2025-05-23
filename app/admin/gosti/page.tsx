@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react'
@@ -57,7 +56,6 @@ export default function PrikaziGoste() {
                 console.error('Greška pri brisanju gosta:', error);
             });
     }
-
     // Pagination logic
     const totalPages = Math.ceil(gost.length / itemsPerPage);
     const startIdx = (currentPage - 1) * itemsPerPage;
