@@ -103,7 +103,7 @@ export default function PrikaziGoste() {
                                 <button
                                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
                                     onClick={() => {
-                                        router.push(`/todo/update/${item.id}`);
+                                        router.push(`/admin/gosti/uredi/${item.id}`);
                                     }}
                                 >
                                     Ažuriraj
