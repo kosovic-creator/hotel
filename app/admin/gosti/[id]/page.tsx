@@ -24,7 +24,7 @@ export default function DetaljiGosta() {
   const [error, setError] = useState<Error | null>(null);
   const [gost, setGost] = useState<Gosti | null>(null);
 
-  useEffect(() => {
+ useEffect(() => {
     async function učitajGostaId() {
       try {
         const response = await fetch(`/api/hotel/gosti/${id}`);
@@ -101,7 +101,7 @@ export default function DetaljiGosta() {
           <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
         )}
       </div>
-     
+
     </div>
   );
-}
+} 

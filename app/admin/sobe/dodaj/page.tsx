@@ -1,99 +1,96 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
-import Toast from '@/components/ui/Toast';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { UploadButton } from '@/lib/uploadthing';
-export default function ApartmanForma() {
-  const [form, setForm] = useState({
-    naziv: '',
-    opis: '',
-    cijena: '',
-    slike: ''
-  });
-   const [toast, setToast] = useState<string | null>(null);
-  const [poruka, setPoruka] = useState('');
-  const [value, setValue] = useState<string[]>([]);
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+
+// import Toast from '@/components/ui/Toast';
+
+interface Sobe {
+  id: number;
+  ime: string;
+  opis: string;
+  cijena: number;
+  slike: string[];
+}
+export default function DetaljiSobe() {
+  const params = useParams();
   const router = useRouter();
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
-  const images = form.slike.split(',').map((s) => s.trim()).filter(Boolean);
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setPoruka('');
-    const res = await fetch('/api/apartmani', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...form,
-        cijena: parseFloat(form.cijena),
-        slike: form.slike.split(',').map((s) => s.trim()).filter(Boolean)
-      })
-    });
-    if (res.ok) {
-      setPoruka('Apartman uspešno dodat!');
-      router.push('/admin/apartmani');
-    } else {
-      setPoruka('Greška pri unosu apartmana.');
+  const [naziv, setNaziv] = useState<string>('');
+  const [opis, setOpis] = useState<string>('');
+  const [cijena, setCijena] = useState<number>(0);
+  const [slike, setSlike] = useState<string[]>([]);
+
+  async function novaSoba() {
+    try {
+      const body = {
+       naziv,
+        opis,
+        cijena,
+        slike,
+      };
+      const response = await fetch(`/api/hotel/sobe`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Greška kod servera');
+      }
+      const data = await response.json();
+      console.log('Dodato:', data);
+      setNaziv('');
+      setOpis('');
+      setCijena(0);
+      setSlike([]);
+      router.push('/admin/sobe');
+    } catch (error) {
+      console.error('Greška u dodavanju novog gosta:', error);
     }
-  };
+  } return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <p className="text-2xl  text-center text-gray-800">Nova Soba</p>
+          <input
+            type="text"
+            value={naziv}
+            onChange={(e) => setNaziv(e.target.value)}
+            placeholder="Ime"
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <input
+            type="text"
+            value={opis}
+            onChange={(e) => setOpis(e.target.value)}
+            placeholder="Opis"
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <input
+            type="number"
+            value={cijena}
+            onChange={(e) => setCijena(Number(e.target.value))}
+            placeholder="Email"
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+ <input
+            type="text"
+            value={slike}
+            onChange={(e) => setOpis(e.target.value)}
+            placeholder="Slike (odvojene zarezom)"
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form onSubmit={handleSubmit} className="max-w-md p-4 border rounded space-y-3 bg-white shadow">
-        <h2 className="text-lg font-bold">Unos apartmana</h2>
-        <input
-          name="naziv"
-          type="text"
-          placeholder="Naziv"
-          value={form.naziv}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded"
-        />
-        <textarea
-          name="opis"
-          placeholder="Opis"
-          value={form.opis}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        />
-        <input
-          name="cijena"
-          type="number"
-          placeholder="Cijena"
-          value={form.cijena}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded"
-          min={0}
-        />
-
-        <div className="flex flex-col items-center bg-amber-900 p-2 rounded">
-         <UploadButton
-                endpoint='imageUploader'
-                onClientUploadComplete={(res: { url: string }[]) => {
-                  setForm((prev) => ({
-                    ...prev,
-                    slike: [...images, res[0].url].join(','),
-                  }));
-                }}
-                onUploadError={(error: Error) => {
-                  setToast(`ERROR! ${error.message}`);
-                }}
-              />
-        </div>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-black text-white rounded hover:bg-blue-950"
-        >
-          Sačuvaj apartman
-        </button>
-        {poruka && <div className="mt-2 text-green-600">{poruka}</div>}
-      </form>
-       <Toast message={toast} />
+          <button
+            type="button"
+            onClick={novaSoba}
+            className="bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
+          >
+            Dodaj Sobu
+          </button>
+      </div>
     </div>
   );
 }

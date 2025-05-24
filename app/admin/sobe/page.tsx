@@ -1,95 +1,134 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useEffect, useState } from 'react'
-import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react'
 import Image from 'next/image';
-import Link from 'next/link';
 
 type Sobe = {
-  id: number
-  naziv: string
-  opis: string
-  cijena: number
-  slike: string[]
+    id: number;
+    ime: string;
+    opis: string;
+    cijena: number;
+    slike: string[]; // <-- ispravno
 }
 
-export default function SobeLista() {
-  const [soba, setSoba] = useState<Sobe[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  // Dodaj state za sidebar
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+export default function GostiLista() {
+    const [soba, setSoba] = useState<Sobe[] | null>(null);
+    const [error, setError] = useState<Error | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const router = useRouter();
 
-  useEffect(() => {
-    const ucitajSobe = async () => {
-      try {
-        const response = await fetch('/api/hotel/sobe')
-        if (!response.ok) throw new Error('Greška pri učitavanju')
-        const data = await response.json()
-        setSoba(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Nepoznata greška')
-      } finally {
-        setLoading(false)
-      }
+    useEffect(() => {
+        async function učitajSobu() {
+            try {
+                const response = await fetch('/api/hotel/sobe');
+                if (!response.ok) {
+                    throw new Error('grešk sa serverom');
+                }
+                const data = await response.json();
+                setSoba(data);
+            } catch (error) {
+                setError(error as Error);
+            }
+        }
+        učitajSobu();
+    }, []);
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
     }
-    ucitajSobe()
-  }, [])
-  return (
-    <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
-      <div className="max-w-6xl mx-auto p-4">
-        <h1 className="text-2xl  mb-4">Sobe</h1>
-        <Link
-        className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-        href="/admin/sobe/dodaj"
-      >
-        Dodaj
-      </Link>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Naziv</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Opis</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cijena (€)</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slike</th>
-                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-300">
-              {soba.map(sobe =>  (
-                <tr key={sobe.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">{sobe.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap font-medium">{sobe.naziv}</td>
-                  <td className="px-6 py-4 max-w-xs">{sobe.opis}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{sobe.cijena.toFixed(2)}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex space-x-2">
-                      {sobe.slike.slice(0, 3).map((slika, index) => (
-                        <Image
-                          key={index}
-                          src={slika}
-                          alt={`Slika ${index + 1}`}
-                          width={48}
-                          height={48}
-                          className="h-12 w-12 object-cover rounded"
-                        />
-                      ))}
-                      {sobe.slike.length > 3 && (
-                        <span className="text-gray-500">+{sobe.slike.length - 3}</span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Link className='mr-3' href={`/admin/sobe/${sobe.id}`}>Detalji</Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    // Pagination logic
+    const totalPages = Math.ceil((soba ? soba.length : 0) / itemsPerPage);
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const trenutnaSoba = (soba ?? []).slice(startIdx, startIdx + itemsPerPage);
+
+    return (
+        <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-50 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl  text-gray-800">Lista Soba</h1>
+                <button
+                    className="bg-black hover:bg-blue-900 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
+                    onClick={() => {
+                        router.push(`/admin/sobe/dodaj`);
+                    }}
+                >
+                    Dodaj Sobu
+                </button>
+            </div>
+            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+                <thead>
+                    <tr>
+                        <th className="py-3 px-4 border-b bg-gray-100 text-left font-semibold text-gray-700">ID</th>
+                        <th className="py-3 px-4 border-b bg-gray-100 text-left font-semibold text-gray-700">Ime</th>
+                        <th className="py-3 px-4 border-b bg-gray-100 text-left font-semibold text-gray-700">Opis</th>
+                        <th className="py-3 px-4 border-b bg-gray-100 text-left font-semibold text-gray-700">Cijena</th>
+                        <th className="py-3 px-4 border-b bg-gray-100 text-left font-semibold text-gray-700">Slike</th>
+                        <th className="py-3 px-4 border-b bg-gray-100 text-left font-semibold text-gray-700"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {trenutnaSoba.map((item) => (
+                        <tr key={item.id} className="hover:bg-gray-50 transition">
+                            <td className="py-2 px-4 border-b">{item.id}</td>
+                            <td className="py-2 px-4 border-b">{item.ime}</td>
+                            <td className="py-2 px-4 border-b">{item.opis}</td>
+                            <td className="py-2 px-4 border-b">{item.cijena}</td>
+                            <td className="py-2 px-4 border-b">
+                                {item.slike && item.slike.slice(0, 3).map((slika, idx) => (
+                                    <Image
+                                        key={idx}
+                                        src={slika}
+                                        alt={`Slika ${item.ime} ${idx + 1}`}
+                                        width={48}
+                                        height={48}
+                                        className="w-12 h-12 object-cover rounded"
+                                        style={{ objectFit: 'cover', borderRadius: '0.5rem' }}
+                                    />
+                                ))}
+                                {item.slike && item.slike.length > 3 && (
+                                    <span className="text-gray-500">+{item.slike.length - 3}</span>
+                                )}
+                            </td>
+                            <td className="py-2 px-4 border-b flex gap-2">
+                                <button
+                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
+                                    onClick={() => {
+                                        router.push(`/admin/sobe/${item.id}`);
+                                    }}
+                                >
+                                    Detalji
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {/* Pagination controls */}
+            <div className="flex justify-center items-center gap-2 mt-6">
+                <button
+                    className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                    disabled={currentPage === 1}
+                >
+                    Predhodna
+                </button>
+                {[...Array(totalPages)].map((_, idx) => (
+                    <button
+                        key={idx}
+                        className={`px-3 py-1 rounded ${currentPage === idx + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+                        onClick={() => setCurrentPage(idx + 1)}
+                    >
+                        {idx + 1}
+                    </button>
+                ))}
+                <button
+                    className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                >
+                    Sledeća
+                </button>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
