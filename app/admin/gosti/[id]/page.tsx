@@ -6,13 +6,13 @@ import { useRouter, useParams } from 'next/navigation';
 // import Toast from '@/components/ui/Toast';
 
 interface Gosti {
-  gostId: number;
+  id: number;
   ime: string;
   prezime: string;
   email: string;
 
 }
-export default function AzurirajGosta() {
+export default function DetaljiGosta() {
   const params = useParams();
   const id = params?.id as string;
   const [ime, setIme] = useState<string>('');
@@ -23,70 +23,77 @@ export default function AzurirajGosta() {
   const [error, setError] = useState<Error | null>(null);
   const [gost, setGost] = useState<Gosti | null>(null);
 
-  // Define učitajGostaId with useCallback to avoid dependency issues
-  const učitajGostaId =useCallback(async () => {
-    try {
-      const response = await fetch(`/api/hotel/gosti/${id}`);
-      if (!response.ok) {
-        throw new Error('Greška ko servera');
-      }
-      const data = await response.json();
-      setGost(data);
-      setGostId(data.id);
-      setIme(data.ime);
-      setPrezime(data.prezime);
-      setEmail(data.email);
-      setError(null);
-    } catch (error) {
-      setError(error as Error);
-    }
-  }, [id]);
-
   useEffect(() => {
+    async function učitajGostaId() {
+      try {
+        const response = await fetch(`/api/hotel/gosti/${id}`);
+        if (!response.ok) {
+          throw new Error('Greška ko servera');
+        }
+        const data = await response.json();
+        setGost(data);
+        setGostId(data.id);
+        setIme(data.ime);
+        setPrezime(data.prezime);
+        setEmail(data.email);
+      } catch (error) {
+        setError(error as Error);
+      }
+    }
     if (id) učitajGostaId();
-  }, [id, učitajGostaId]);
-
+  }, [id]);
+  function brišiGosta(id: number) {
+    fetch(`/api/hotel/gosti/${id}`, {
+      method: 'DELETE',
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(
+            `Server ne može da obradi zahtjev: ${response.status} ${errorText}`
+          );
+        }
+        return response.json();
+      })
+      .then(() => {
+        setGost(null);
+        router.push('/admin/gosti');
+      })
+      .catch((error) => {
+        setError(error); // Prikaži grešku korisniku
+        console.error('Greška pri brisanju gosta:', error);
+      });
+  }
   return (
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <p className="text-2xl  text-center text-gray-800">Ažuriranje Gosta</p>
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            učitajGostaId();
-          }}
-        >
-          <input
-            type="text"
-            value={ime}
-            readOnly
-            placeholder="Unesite ime"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <input
-            type="text"
-            value={prezime}
-            readOnly
-            placeholder="Unesite prezime"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <input
-            type="email"
-            value={email}
-            readOnly
-            placeholder="Unesite email"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          {/* <button
-            type="submit"
-            className="bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
-          >
-            Ažuriraj gosta
-          </button> */}
-        </form>
-        {error && (
-          <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
-        )}
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="flex-col text-left p-2 ">
+        <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Gosta</h1>
+        <p className="p-3"><>Id:</> {gost?.id}</p>
+        <p className="p-3"><>Naziv:</> {gost?.ime}</p>
+        <p className="p-3"><>Opis:</> {gost?.prezime}</p>
+        <p className="p-3"><>Cijena:</> {gost?.email}</p>
       </div>
+      <button
+        className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
+        onClick={() => {
+          brišiGosta(gost?.id as number);
+
+        }}
+      >
+        Briši Gosta
+      </button>
+      <button
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
+        onClick={() => {
+          router.push(`/admin/gosti/uredi/${gost?.gostId}`);
+        }}
+      >
+        Ažuriraj
+      </button>
+
+      {error && (
+        <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
+      )}
+    </div>
   );
 }

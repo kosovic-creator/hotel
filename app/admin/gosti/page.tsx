@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react'
 
-type Gost={
+type Gost = {
     id: number;
     ime: string;
     prezime: string;
@@ -17,7 +17,7 @@ export default function GostiLista() {
     const router = useRouter();
 
     useEffect(() => {
-        async function fetchTodo() {
+        async function učitajGosta() {
             try {
                 const response = await fetch('/api/hotel/gosti');
                 if (!response.ok) {
@@ -29,7 +29,7 @@ export default function GostiLista() {
                 setError(error as Error);
             }
         }
-        fetchTodo();
+        učitajGosta();
     }, []);
 
     if (error) {
@@ -39,23 +39,6 @@ export default function GostiLista() {
         return <div>Loading...</div>;
     }
 
-    function brišiGosta(id: number) {
-        fetch(`/api/hotel/gosti/${id}`, {
-            method: 'DELETE',
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Serverne pože da pošalje grešku');
-                }
-                return response.json();
-            })
-            .then(() => {
-                setGost((prev) => prev ? prev.filter((t) => t.id !== id) : prev);
-            })
-            .catch((error) => {
-                console.error('Greška pri brisanju gosta:', error);
-            });
-    }
     // Pagination logic
     const totalPages = Math.ceil(gost.length / itemsPerPage);
     const startIdx = (currentPage - 1) * itemsPerPage;
@@ -85,7 +68,7 @@ export default function GostiLista() {
                     </tr>
                 </thead>
                 <tbody>
-                    {trenutniGost.map((item: { id: number,ime:string,prezime:string,email:string}) => (
+                    {trenutniGost.map((item: { id: number, ime: string, prezime: string, email: string }) => (
                         <tr key={item.id} className="hover:bg-gray-50 transition">
                             <td className="py-2 px-4 border-b">{item.id}</td>
                             <td className="py-2 px-4 border-b">{item.ime}</td>
@@ -93,22 +76,6 @@ export default function GostiLista() {
                             <td className="py-2 px-4 border-b">{item.email}</td>
                             <td className="py-2 px-4 border-b flex gap-2">
                                 <button
-                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
-                                    onClick={() => {
-                                        brišiGosta(item.id);
-                                    }}
-                                >
-                                    Briši Gosta
-                                </button>
-                                <button
-                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
-                                    onClick={() => {
-                                        router.push(`/admin/gosti/uredi/${item.id}`);
-                                    }}
-                                >
-                                    Ažuriraj
-                                </button>
- <button
                                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
                                     onClick={() => {
                                         router.push(`/admin/gosti/${item.id}`);
