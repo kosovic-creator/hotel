@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
 // import Toast from '@/components/ui/Toast';
 
 interface Gosti {
@@ -73,6 +74,14 @@ export default function DetaljiGosta() {
         <p className="p-3"><>Opis:</> {gost?.prezime}</p>
         <p className="p-3"><>Cijena:</> {gost?.email}</p>
         <button
+        className="bg-gray-400 hover:bg-grey-500 text-white px-4 py-1 rounded-lg font-medium transition"
+        onClick={() => {
+          router.push(`/admin/gosti`);
+        }}
+      >
+       Nazad
+      </button>
+        <button
         className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
         onClick={() => {
           brišiGosta(gost?.id as number);
@@ -88,7 +97,6 @@ export default function DetaljiGosta() {
       >
         Ažuriraj
       </button>
-
       {error && (
         <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
       )}
