@@ -51,64 +51,62 @@ export default function DetaljiSobe() {
       console.error('Greška u dodavanju novog gosta:', error);
     }
   } return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <p className="text-2xl  text-center text-gray-800">Nova Soba</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6">
+        <p className="text-3xl font-bold text-center text-black mb-2">Nova Soba</p>
+        <div className="space-y-4">
           <input
             type="text"
             value={naziv}
             onChange={(e) => setNaziv(e.target.value)}
             placeholder="Ime"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
           <input
             type="text"
             value={opis}
             onChange={(e) => setOpis(e.target.value)}
             placeholder="Opis"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
           <input
             type="number"
             value={cijena}
             onChange={(e) => setCijena(Number(e.target.value))}
-          placeholder="Cijena"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Cijena"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
-
-        <UploadButton
-          endpoint="imageUploader" // zameni sa stvarnim endpointom ako je drugačiji
-          onClientUploadComplete={(res: { url: string }[]) => {
-            // Pretpostavljamo da res sadrži niz objekata sa url-om slike
-            setSlike(res.map((file) => file.url));
-          }}
-          onUploadError={(error: Error) => {
-            alert(`Greška pri uploadu: ${error.message}`);
-          }}
-        />
-
-        {slike.length > 0 && (
-          <div className="flex gap-2 my-4">
-            {slike.map((url, idx) => (
-              <Image
-                key={idx}
-                src={url}
-                alt={`Slika ${idx + 1}`}
-                width={80}
-                height={80}
-                className="w-20 h-20 object-cover rounded"
-              />
-            ))}
-          </div>
-        )}
-
-          <button
-            type="button"
-            onClick={novaSoba}
-            className="bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
-          >
-            Dodaj Sobu
-          </button>
+          <UploadButton
+            endpoint="imageUploader"
+            onClientUploadComplete={(res: { url: string }[]) => {
+              setSlike(res.map((file) => file.url));
+            }}
+            onUploadError={(error: Error) => {
+              alert(`Greška pri uploadu: ${error.message}`);
+            }}
+          />
+          {slike.length > 0 && (
+            <div className="flex gap-2 my-4">
+              {slike.map((url, idx) => (
+                <Image
+                  key={idx}
+                  src={url}
+                  alt={`Slika ${idx + 1}`}
+                  width={80}
+                  height={80}
+                  className="w-20 h-20 object-cover rounded"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={novaSoba}
+          className="w-full bg-gray-900 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition"
+        >
+          Dodaj Sobu
+        </button>
       </div>
     </div>
   );

@@ -36,38 +36,39 @@ export default function DodajGosta() {
       console.error('Greška u dodavanju novog gosta:', error);
     }
   } return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <p className="text-2xl  text-center text-gray-800">Novi Gost</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6">
+        <p className="text-3xl font-bold text-center text-black-700 mb-2">Novi Gost</p>
+        <div className="space-y-4">
           <input
             type="text"
             value={ime}
             onChange={(e) => setIme(e.target.value)}
             placeholder="Ime"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
           <input
             type="text"
             value={prezime}
             onChange={(e) => setPrezime(e.target.value)}
             placeholder="Prezime"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
-
-          <button
-            type="button"
-            onClick={noviGost}
-            className="bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
-          >
-            Dodaj Gosta
-          </button>
+        </div>
+        <button
+          type="button"
+          onClick={noviGost}
+          className="w-full bg-gray-900 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition"
+        >
+          Dodaj Gosta
+        </button>
       </div>
     </div>
   );
