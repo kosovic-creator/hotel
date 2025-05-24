@@ -66,12 +66,12 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                     <Link href="/admin/sobe" className="hover:underline">
                         Sobe
                     </Link>
-                    {/* <Link
+                    <Link
                         href="/admin/rezervacije"
                         className="hover:underline"
                     >
-                        <h1 >Rezervacije</h1>
-                    </Link> */}
+                        <h1 >Pregled Rezervacija</h1>
+                    </Link>
                     <Link href="/admin/gosti" className="hover:underline">
                         Gosti
                     </Link>
