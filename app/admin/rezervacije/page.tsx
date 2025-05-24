@@ -13,7 +13,7 @@ type Rezervacija = {
 export default function RezervacijePage() {
   const [rezervacije, setRezervacije] = useState<Rezervacija[]>([]);
   useEffect(() => {
-    fetch('/api/rezervacije')
+    fetch('/api/hotel/rezervacije')
       .then(res => res.json())
       .then(data => setRezervacije(data))
       .catch(err => console.error('Greška pri učitavanju:', err));

@@ -37,7 +37,7 @@ export default function PregledSlobodnihApartmana() {
     const ucitajApartmane = async () => {
       try {
         const response = await fetch('/api/hotel/sobe')
-        if (!response.ok) throw new Error('Greška pri učitavanju')
+        if (!response.ok) throw new Error('Greška pri učitavanju soba')
         const data = await response.json()
         setSoba(data)
       } catch (err) {
