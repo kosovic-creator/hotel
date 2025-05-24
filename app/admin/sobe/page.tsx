@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useEffect, useState } from 'react'
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Image from 'next/image';
 import Link from 'next/link';
 
-type Apartman = {
+type Sobe = {
   id: number
   naziv: string
   opis: string
@@ -14,65 +13,35 @@ type Apartman = {
   slike: string[]
 }
 
-type Rezervacija = {
-  id: number
-  apartman: Apartman
-  pocetak: string // ISO date string
-  kraj: string // ISO date string
-}
-
-export default function ApartmaniTabela() {
-  const [apartmani, setApartmani] = useState<Apartman[]>([])
-  const [rezervacije, setRezervacije] = useState<Rezervacija[]>([])
+export default function SobeLista() {
+  const [soba, setSoba] = useState<Sobe[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-
   // Dodaj state za sidebar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const ucitajApartmane = async () => {
+    const ucitajSobe = async () => {
       try {
-        const response = await fetch('/api/apartmani')
+        const response = await fetch('/api/hotel/sobe')
         if (!response.ok) throw new Error('Greška pri učitavanju')
         const data = await response.json()
-        setApartmani(data)
+        setSoba(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Nepoznata greška')
+      } finally {
+        setLoading(false)
       }
     }
-    const ucitajRezervacije = async () => {
-      try {
-        const response = await fetch('/api/rezervacije')
-        if (!response.ok) throw new Error('Greška pri učitavanju rezervacija')
-        const data = await response.json()
-        setRezervacije(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Nepoznata greška rezervacija')
-      }
-    }
-    Promise.all([ucitajApartmane(), ucitajRezervacije()]).finally(() => setLoading(false))
+    ucitajSobe()
   }, [])
-  if (error) return <div className="text-red-500 p-4">Greška: {error}</div>
-  const isApartmanDostupan = (apartmanId: number) => {
-    if (!startDate || !endDate) return true;
-
-    return !rezervacije.some(r =>
-      r.apartman.id === apartmanId &&
-      new Date(r.pocetak) < endDate &&
-      new Date(r.kraj) > startDate
-    );
-  };
   return (
     <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
       <div className="max-w-6xl mx-auto p-4">
-        <h1 className="text-2xl  mb-4">Apartmani</h1>
-
+        <h1 className="text-2xl  mb-4">Sobe</h1>
         <Link
         className="bg-gray-950 text-white px-4 py-3 w-40 h-9 rounded flex items-center justify-center mb-4 hover:bg-gray-600 transition duration-300"
-        href="/admin/apartmani/dodaj"
+        href="/admin/sobe/dodaj"
       >
         Dodaj
       </Link>
@@ -89,15 +58,15 @@ export default function ApartmaniTabela() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-300">
-              {apartmani.filter(apartman => isApartmanDostupan(apartman.id)).map(apartman => (
-                <tr key={apartman.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">{apartman.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap font-medium">{apartman.naziv}</td>
-                  <td className="px-6 py-4 max-w-xs">{apartman.opis}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{apartman.cijena.toFixed(2)}</td>
+              {soba.map(sobe =>  (
+                <tr key={sobe.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">{sobe.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap font-medium">{sobe.naziv}</td>
+                  <td className="px-6 py-4 max-w-xs">{sobe.opis}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{sobe.cijena.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2">
-                      {apartman.slike.slice(0, 3).map((slika, index) => (
+                      {sobe.slike.slice(0, 3).map((slika, index) => (
                         <Image
                           key={index}
                           src={slika}
@@ -107,23 +76,19 @@ export default function ApartmaniTabela() {
                           className="h-12 w-12 object-cover rounded"
                         />
                       ))}
-                      {apartman.slike.length > 3 && (
-                        <span className="text-gray-500">+{apartman.slike.length - 3}</span>
+                      {sobe.slike.length > 3 && (
+                        <span className="text-gray-500">+{sobe.slike.length - 3}</span>
                       )}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link className='mr-3' href={`/admin/apartmani/${apartman.id}`}>Detalji</Link>
+                    <Link className='mr-3' href={`/admin/sobe/${sobe.id}`}>Detalji</Link>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        {apartmani.length === 0 && !loading && (
-          <div className="text-center text-gray-500 mt-4">Nema dostupnih apartmana.</div>
-        )}
       </div>
     </div>
   )

@@ -10,11 +10,8 @@ export type SidebarProps = {
     open: boolean;
     onClose: () => void;
 };
-
 const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
     const [isVisible, setIsVisible] = useState(open);
-
-
     // Redirect to sign-in if no session
     useEffect(() => {
         if (!session) {
@@ -66,8 +63,8 @@ const Sidebar: React.FC<SidebarProps> = ({ session, open, onClose }) => {
                         Rezervacija
                     </Link>
 
-                    <Link href="/admin/apartmani" className="hover:underline">
-                        Apartmani
+                    <Link href="/admin/sobe" className="hover:underline">
+                        Sobe
                     </Link>
                     <Link
                         href="/admin/rezervacije"

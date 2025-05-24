@@ -9,7 +9,7 @@ type Gost={
     email: string;
 }
 
-export default function PrikaziGoste() {
+export default function GostiLista() {
     const [gost, setGost] = useState<Gost[] | null>(null);
     const [error, setError] = useState<Error | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -107,6 +107,14 @@ export default function PrikaziGoste() {
                                     }}
                                 >
                                     Ažuriraj
+                                </button>
+ <button
+                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
+                                    onClick={() => {
+                                        router.push(`/admin/gosti/${item.id}`);
+                                    }}
+                                >
+                                    Detalji
                                 </button>
                             </td>
                         </tr>
