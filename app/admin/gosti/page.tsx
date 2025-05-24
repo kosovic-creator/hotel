@@ -35,14 +35,12 @@ export default function GostiLista() {
     if (error) {
         return <div>Error: {error.message}</div>;
     }
-    if (!gost) {
-        return <div>Loading...</div>;
-    }
+   
 
     // Pagination logic
-    const totalPages = Math.ceil(gost.length / itemsPerPage);
+    const totalPages = Math.ceil((gost ? gost.length : 0) / itemsPerPage);
     const startIdx = (currentPage - 1) * itemsPerPage;
-    const trenutniGost = gost.slice(startIdx, startIdx + itemsPerPage);
+    const trenutniGost = (gost ?? []).slice(startIdx, startIdx + itemsPerPage);
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-50 rounded-xl shadow-lg">

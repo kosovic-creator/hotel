@@ -104,6 +104,14 @@ export default function AzurirajGosta() {
           >
             Ažuriraj gosta
           </button>
+          <button
+          className="bg-gray-400 hover:bg-grey-500 text-white px-4 py-1 rounded-lg font-medium transition"
+          onClick={() => {
+            router.push(`/admin/gosti`);
+          }}
+        >
+          Odloži
+        </button>
         </form>
         {error && (
           <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>

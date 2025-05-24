@@ -74,53 +74,34 @@ export default function DetaljiGosta() {
         <p className="p-3"><>Opis:</> {gost?.prezime}</p>
         <p className="p-3"><>Cijena:</> {gost?.email}</p>
         <button
-        className="bg-gray-400 hover:bg-grey-500 text-white px-4 py-1 rounded-lg font-medium transition"
-        onClick={() => {
-          router.push(`/admin/gosti`);
-        }}
-      >
-       Nazad
-      </button>
+          className="bg-gray-400 hover:bg-grey-500 text-white px-4 py-1 rounded-lg font-medium transition"
+          onClick={() => {
+            router.push(`/admin/gosti`);
+          }}
+        >
+          Nazad
+        </button>
         <button
-        className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
-        onClick={() => {
-          brišiGosta(gost?.id as number);
-        }}
-      >
-        Briši Gosta
-      </button>
-      <button
-        className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
-        onClick={() => {
-          router.push(`/admin/gosti/uredi/${gost?.id}`);
-        }}
-      >
-        Ažuriraj
-      </button>
-      {error && (
-        <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
-      )}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
+          onClick={() => {
+            brišiGosta(gost?.id as number);
+          }}
+        >
+          Briši Gosta
+        </button>
+        <button
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
+          onClick={() => {
+            router.push(`/admin/gosti/uredi/${gost?.id}`);
+          }}
+        >
+          Ažuriraj
+        </button>
+        {error && (
+          <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
+        )}
       </div>
-      {/* <button
-        className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
-        onClick={() => {
-          brišiGosta(gost?.id as number);
-        }}
-      >
-        Briši Gosta
-      </button>
-      <button
-        className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
-        onClick={() => {
-          router.push(`/admin/gosti/uredi/${gost?.id}`);
-        }}
-      >
-        Ažuriraj
-      </button>
-
-      {error && (
-        <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
-      )} */}
+     
     </div>
   );
 }
