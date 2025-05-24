@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function SobeId() {
   type Sobe = {
@@ -76,7 +77,20 @@ export default function SobeId() {
         <p className="p-3"><>Naziv:</> {soba?.naziv}</p>
         <p className="p-3"><>Opis:</> {soba?.opis}</p>
         <p className="p-3"><>Cijena:</> {soba?.cijena}</p>
-         <p className="p-3"><>Cijena:</> {soba?.slike}</p>
+        {soba && soba.slike && Array.isArray(soba.slike) && soba.slike.length > 0 && (
+          <div className="flex flex-wrap gap-2 p-3">
+            {soba.slike.map((url: string, idx: number) => (
+              <Image
+                key={idx}
+                src={url.trim()}
+                alt={`slika apartmana ${soba.naziv}`}
+                width={128}
+                height={96}
+                className="w-32 h-24 object-cover rounded"
+              />
+            ))}
+          </div>
+        )}
         <button
           className="bg-gray-400 hover:bg-grey-500 text-white px-4 py-1 rounded-lg font-medium transition"
           onClick={() => {
