@@ -100,7 +100,7 @@ export default function AzurirajGosta() {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
+            className="bg-black text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
           >
             Ažuriraj gosta
           </button>
