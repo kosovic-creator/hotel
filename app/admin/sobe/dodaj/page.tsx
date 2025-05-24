@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-
+import Image from 'next/image';
+import { UploadButton } from '@/lib/uploadthing';
 // import Toast from '@/components/ui/Toast';
 
 interface Sobe {
@@ -72,16 +72,35 @@ export default function DetaljiSobe() {
             type="number"
             value={cijena}
             onChange={(e) => setCijena(Number(e.target.value))}
-            placeholder="Email"
+          placeholder="Cijena"
             className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
- <input
-            type="text"
-            value={slike}
-            onChange={(e) => setOpis(e.target.value)}
-            placeholder="Slike (odvojene zarezom)"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+
+        <UploadButton
+          endpoint="imageUploader" // zameni sa stvarnim endpointom ako je drugačiji
+          onClientUploadComplete={(res: { url: string }[]) => {
+            // Pretpostavljamo da res sadrži niz objekata sa url-om slike
+            setSlike(res.map((file) => file.url));
+          }}
+          onUploadError={(error: Error) => {
+            alert(`Greška pri uploadu: ${error.message}`);
+          }}
+        />
+
+        {slike.length > 0 && (
+          <div className="flex gap-2 my-4">
+            {slike.map((url, idx) => (
+              <Image
+                key={idx}
+                src={url}
+                alt={`Slika ${idx + 1}`}
+                width={80}
+                height={80}
+                className="w-20 h-20 object-cover rounded"
+              />
+            ))}
+          </div>
+        )}
 
           <button
             type="button"

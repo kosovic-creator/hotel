@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Image from 'next/image';
 import Toast from '@/components/ui/Toast';
 import { UploadButton } from '@/lib/uploadthing';
 // import error from 'next/error'; // Remove this import, not needed
@@ -40,7 +41,7 @@ export default function UpdateApartman() {
         setOpis(data.opis);
         setCijena(data.cijena);
         setSlike(data.slike);
-      
+
       } catch (error) {
         setError(error as Error);
       }
@@ -105,13 +106,31 @@ export default function UpdateApartman() {
             placeholder="Unesite cijenu"
             className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-           <input
-            type="text"
-            value={slike.join(', ')}
-            onChange={(e) => setSlike(e.target.value.split(',').map(s => s.trim()))}
-            placeholder="Unesite sliku (odvojene zarezom)"
-            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+          <UploadButton
+                    endpoint="imageUploader" // zameni sa stvarnim endpointom ako je drugačiji
+                    onClientUploadComplete={(res: { url: string }[]) => {
+                      // Pretpostavljamo da res sadrži niz objekata sa url-om slike
+                      setSlike(res.map((file) => file.url));
+                    }}
+                    onUploadError={(error: Error) => {
+                      alert(`Greška pri uploadu: ${error.message}`);
+                    }}
+                  />
+
+                  {slike.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {slike.map((url, idx) => (
+                        <Image
+                          key={idx}
+                          src={url}
+                          alt={`Slika ${idx + 1}`}
+                          width={80}
+                          height={80}
+                          className="w-20 h-20 object-cover rounded"
+                        />
+                      ))}
+                    </div>
+                  )}
           <button
             type="submit"
             className="bg-black text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
