@@ -65,15 +65,14 @@ export default function DetaljiGosta() {
       });
   }
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <div className="flex-col text-left p-2 ">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div >
         <h1 className="text-2xl font-bold-1 p-2 text-left">Detalji Gosta</h1>
         <p className="p-3"><>Id:</> {gost?.id}</p>
         <p className="p-3"><>Naziv:</> {gost?.ime}</p>
         <p className="p-3"><>Opis:</> {gost?.prezime}</p>
         <p className="p-3"><>Cijena:</> {gost?.email}</p>
-      </div>
-      <button
+        <button
         className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
         onClick={() => {
           brišiGosta(gost?.id as number);
@@ -93,6 +92,27 @@ export default function DetaljiGosta() {
       {error && (
         <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
       )}
+      </div>
+      {/* <button
+        className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
+        onClick={() => {
+          brišiGosta(gost?.id as number);
+        }}
+      >
+        Briši Gosta
+      </button>
+      <button
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
+        onClick={() => {
+          router.push(`/admin/gosti/uredi/${gost?.id}`);
+        }}
+      >
+        Ažuriraj
+      </button>
+
+      {error && (
+        <p className="mt-4 text-red-600 text-center">Error: {error.message}</p>
+      )} */}
     </div>
   );
 }
