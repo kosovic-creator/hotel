@@ -77,7 +77,6 @@ export default function DetaljiGosta() {
         className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium transition"
         onClick={() => {
           brišiGosta(gost?.id as number);
-
         }}
       >
         Briši Gosta
@@ -85,7 +84,7 @@ export default function DetaljiGosta() {
       <button
         className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg font-medium transition"
         onClick={() => {
-          router.push(`/admin/gosti/uredi/${gost?.gostId}`);
+          router.push(`/admin/gosti/uredi/${gost?.id}`);
         }}
       >
         Ažuriraj
