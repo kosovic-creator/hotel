@@ -1,14 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
-
-import PotvrdiBrisanjeApartmana from '@/components/PotvrdaBrisanjaModal/PotvrdiBrisanjeApartmana';
-import Toast from '@/components/ui/Toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-
-
 
 export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: number }> }) {
   const { id } = React.use(params);
@@ -112,15 +107,10 @@ export default function ApartmaniByIdForm({ params }: { params: Promise<{ id: nu
             </div>
           </div>
         )}
+        {greska && (
+          <p className="mt-4 text-red-600 text-center">{greska}</p>
+        )}
 
-        <PotvrdiBrisanjeApartmana
-          isOpen={isModalOpen}
-          onClose={closeDeleteConfirmModal}
-          onConfirm={() => selectedItemId !== null && deleteApartman(selectedItemId)}
-          itemId={selectedItemId!}
-          naziv={apartman?.naziv ?? ''}
-        />
-        <Toast message={toast} />
       </div>
     </div>
   );
