@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Nav from '@/components/Nav'; // Dodaj import
 import Link from 'next/link';
 
-type Apartman = {
+type Sobe = {
   id: number
   naziv: string
   opis: string
@@ -17,13 +17,13 @@ type Apartman = {
 
 type Rezervacija = {
   id: number
-  apartman: Apartman
+  soba: Sobe
   pocetak: string // ISO date string
   kraj: string // ISO date string
 }
 
 export default function PregledSlobodnihApartmana() {
-  const [apartmani, setApartmani] = useState<Apartman[]>([])
+  const [soba, setSoba] = useState<Sobe[]>([])
   const [rezervacije, setRezervacije] = useState<Rezervacija[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -36,17 +36,17 @@ export default function PregledSlobodnihApartmana() {
   useEffect(() => {
     const ucitajApartmane = async () => {
       try {
-        const response = await fetch('/api/apartmani')
+        const response = await fetch('/api/hotel/sobe')
         if (!response.ok) throw new Error('Greška pri učitavanju')
         const data = await response.json()
-        setApartmani(data)
+        setSoba(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Nepoznata greška')
       }
     }
     const ucitajRezervacije = async () => {
       try {
-        const response = await fetch('/api/rezervacije')
+        const response = await fetch('/api/hotel/rezervacije')
         if (!response.ok) throw new Error('Greška pri učitavanju rezervacija')
         const data = await response.json()
         setRezervacije(data)
@@ -57,11 +57,11 @@ export default function PregledSlobodnihApartmana() {
     Promise.all([ucitajApartmane(), ucitajRezervacije()]).finally(() => setLoading(false))
   }, [])
   if (error) return <div className="text-red-500 p-4">Greška: {error}</div>
-  const isApartmanDostupan = (apartmanId: number) => {
+  const isApartmanDostupan = (sobaId: number) => {
     if (!startDate || !endDate) return true;
 
     return !rezervacije.some(r =>
-      r.apartman.id === apartmanId &&
+      r.soba.id === sobaId &&
       new Date(r.pocetak) < endDate &&
       new Date(r.kraj) > startDate
     );
@@ -104,15 +104,15 @@ export default function PregledSlobodnihApartmana() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-300">
-              {apartmani.filter(apartman => isApartmanDostupan(apartman.id)).map(apartman => (
-                <tr key={apartman.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">{apartman.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap font-medium">{apartman.naziv}</td>
-                  <td className="px-6 py-4 max-w-xs">{apartman.opis}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{apartman.cijena.toFixed(2)}</td>
+              {soba.filter(sobe => isApartmanDostupan(sobe.id)).map(sobe => (
+                <tr key={sobe.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">{sobe.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap font-medium">{sobe.naziv}</td>
+                  <td className="px-6 py-4 max-w-xs">{sobe.opis}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{sobe.cijena.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2">
-                      {apartman.slike.slice(0, 3).map((slika, index) => (
+                      {sobe.slike.slice(0, 3).map((slika, index) => (
                         <Image
                           key={index}
                           src={slika}
@@ -122,8 +122,8 @@ export default function PregledSlobodnihApartmana() {
                           className="h-12 w-12 object-cover rounded"
                         />
                       ))}
-                      {apartman.slike.length > 3 && (
-                        <span className="text-gray-500">+{apartman.slike.length - 3}</span>
+                      {sobe.slike.length > 3 && (
+                        <span className="text-gray-500">+{sobe.slike.length - 3}</span>
                       )}
                     </div>
                   </td>
@@ -141,7 +141,7 @@ export default function PregledSlobodnihApartmana() {
           </table>
         </div>
 
-        {apartmani.length === 0 && !loading && (
+        {soba.length === 0 && !loading && (
           <div className="text-center text-gray-500 mt-4">Nema dostupnih apartmana.</div>
         )}
       </div>
